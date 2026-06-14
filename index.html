@@ -1,119 +1,835 @@
-Baik Nafal, aku sudah menyiapkan sebuah **website statis satu file HTML** sesuai spesifikasi lengkap yang kamu berikan untuk aplikasi **TimeBalance**. Struktur ini sudah menggunakan **Bootstrap 5**, **Font Poppins**, **AOS Animation**, **Swiper.js**, serta interaksi seperti sticky navbar, smooth scrolling, FAQ accordion, dark mode toggle, dan back-to-top button.  
-
-Berikut adalah kode lengkapnya:
-
-```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TimeBalance - Aplikasi manajemen waktu dengan sistem Work–Reward Mechanism untuk meningkatkan produktivitas dan mengurangi prokrastinasi.">
-  <meta name="keywords" content="aplikasi produktivitas, aplikasi manajemen waktu, aplikasi fokus belajar, aplikasi pomodoro, aplikasi anti prokrastinasi, cara mengatur waktu, produktivitas mahasiswa, aplikasi to do list, work life balance, productivity app, time management app, fokus belajar, manajemen waktu mahasiswa, aplikasi fokus kerja, aplikasi pengatur waktu">
-  <title>TimeBalance - Productivity & Life Balance</title>
-  <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Poppins -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <!-- AOS Animation -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <!-- Swiper.js -->
-  <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet">
-  <style>
-    body {font-family: 'Poppins', sans-serif; background:#F8FAFC; color:#0F172A;}
-    .navbar {background:#4F46E5;}
-    .navbar a {color:#fff !important;}
-    .hero {padding:100px 0; text-align:center; background:linear-gradient(135deg,#4F46E5,#6366F1); color:#fff;}
-    .btn-primary {background:#4F46E5; border:none;}
-    .btn-primary:hover {background:#6366F1;}
-    .feature-card {transition:0.3s; border:none;}
-    .feature-card:hover {transform:translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.1);}
-    .faq .accordion-button {background:#F8FAFC;}
-    .dark-mode {background:#0F172A; color:#F8FAFC;}
-    footer {background:#4F46E5; color:#fff; padding:30px 0;}
-    .back-to-top {position:fixed; bottom:20px; right:20px; display:none;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TimeBalance - Aplikasi Manajemen Waktu & Produktivitas</title>
+
+<meta name="description" content="TimeBalance adalah aplikasi produktivitas dan manajemen waktu berbasis Work-Reward Mechanism untuk membantu fokus belajar, mengurangi prokrastinasi, dan meningkatkan produktivitas.">
+
+<meta name="keywords" content="
+aplikasi produktivitas,
+aplikasi manajemen waktu,
+aplikasi fokus belajar,
+aplikasi pomodoro,
+aplikasi anti prokrastinasi,
+cara mengatur waktu,
+produktivitas mahasiswa,
+aplikasi to do list,
+work life balance,
+productivity app,
+time management app">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<style>
+
+:root{
+--primary:#4F46E5;
+--secondary:#6366F1;
+--success:#22C55E;
+--bg:#F8FAFC;
+--text:#0F172A;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:var(--bg);
+color:var(--text);
+scroll-behavior:smooth;
+}
+
+.dark-mode{
+background:#0f172a;
+color:white;
+}
+
+.dark-mode .card,
+.dark-mode .glass,
+.dark-mode .accordion-item{
+background:#1e293b;
+color:white;
+}
+
+.loader{
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99999;
+}
+
+.spinner{
+width:60px;
+height:60px;
+border:6px solid #eee;
+border-top:6px solid var(--primary);
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+.navbar{
+backdrop-filter:blur(20px);
+background:rgba(255,255,255,0.8);
+}
+
+.hero{
+padding:150px 0;
+background:
+linear-gradient(
+135deg,
+#4F46E5,
+#6366F1
+);
+color:white;
+}
+
+.hero h1{
+font-size:3rem;
+font-weight:700;
+}
+
+.hero p{
+font-size:1.1rem;
+}
+
+.glass{
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(20px);
+border-radius:20px;
+padding:30px;
+}
+
+.section-title{
+font-size:2rem;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.card{
+border:none;
+border-radius:20px;
+transition:0.4s;
+}
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 50px rgba(0,0,0,0.1);
+}
+
+.feature-icon{
+font-size:40px;
+color:var(--primary);
+margin-bottom:20px;
+}
+
+.btn-primary{
+background:var(--primary);
+border:none;
+}
+
+.btn-primary:hover{
+transform:scale(1.05);
+}
+
+.pricing-card{
+border:2px solid transparent;
+}
+
+.pricing-card:hover{
+border-color:var(--primary);
+}
+
+footer{
+background:#0f172a;
+color:white;
+}
+
+.social a{
+color:white;
+margin-right:15px;
+font-size:22px;
+}
+
+.back-top{
+position:fixed;
+right:20px;
+bottom:20px;
+background:var(--primary);
+width:50px;
+height:50px;
+display:flex;
+justify-content:center;
+align-items:center;
+border-radius:50%;
+color:white;
+text-decoration:none;
+display:none;
+}
+
+.blog-card img{
+border-radius:20px 20px 0 0;
+}
+
+@media(max-width:768px){
+
+.hero{
+text-align:center;
+padding:120px 0;
+}
+
+.hero h1{
+font-size:2.3rem;
+}
+
+}
+
+</style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg fixed-top">
-  <div class="container">
-    <a class="navbar-brand fw-bold text-white" href="#">TimeBalance</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
-        <li class="nav-item"><a class="nav-link" href="#features">Fitur</a></li>
-        <li class="nav-item"><a class="nav-link" href="#how">Cara Kerja</a></li>
-        <li class="nav-item"><a class="nav-link" href="#pricing">Harga</a></li>
-        <li class="nav-item"><a class="nav-link" href="#blog">Blog</a></li>
-        <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
-      </ul>
-    </div>
-  </div>
+<div class="loader">
+<div class="spinner"></div>
+</div>
+
+<a href="#" class="back-top" id="backTop">
+<i class="fas fa-arrow-up"></i>
+</a>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top shadow-sm">
+<div class="container">
+
+<a class="navbar-brand fw-bold text-primary">
+<i class="fas fa-clock"></i> TimeBalance
+</a>
+
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="nav">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+<a class="nav-link" href="#about">About</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#features">Features</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#how">How It Works</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#pricing">Pricing</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#blog">Blog</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#faq">FAQ</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#contact">Contact</a>
+</li>
+
+<li class="nav-item ms-2">
+<button class="btn btn-dark btn-sm" id="darkToggle">
+🌙
+</button>
+</li>
+
+</ul>
+
+</div>
+</div>
 </nav>
 
-<!-- Hero Section -->
-<section class="hero" id="home">
-  <div class="container">
-    <h1 data-aos="fade-up">Santai Kini, Aman Nanti</h1>
-    <p data-aos="fade-up" data-aos-delay="200">Aplikasi manajemen waktu dengan sistem Work–Reward Mechanism untuk produktivitas dan keseimbangan hidup.</p>
-    <a href="#download" class="btn btn-success mt-3">Coba Sekarang</a>
-  </div>
+<!-- HERO -->
+<section class="hero">
+
+<div class="container">
+
+<div class="row align-items-center">
+
+<div class="col-lg-6" data-aos="fade-right">
+
+<h1>Kelola Waktu dengan Lebih Seimbang</h1>
+
+<p class="mt-4">
+Selesaikan tugas terlebih dahulu dan nikmati waktu hiburan sebagai reward melalui sistem Work–Reward Mechanism.
+</p>
+
+<div class="mt-4">
+
+<a href="#" class="btn btn-light btn-lg me-2">
+Coba Sekarang
+</a>
+
+<a href="#features" class="btn btn-outline-light btn-lg">
+Pelajari Fitur
+</a>
+
+</div>
+
+</div>
+
+<div class="col-lg-6 text-center mt-5 mt-lg-0"
+data-aos="fade-left">
+
+<div class="glass">
+
+<i class="fas fa-clock fa-6x mb-4"></i>
+
+<h3>Produktif Tanpa Burnout</h3>
+
+<p>
+Bekerja lebih fokus, bermain tanpa rasa bersalah.
+</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
 </section>
 
-<!-- About -->
+<!-- ABOUT -->
 <section id="about" class="py-5">
-  <div class="container" data-aos="fade-up">
-    <h2 class="text-center mb-4">Tentang TimeBalance</h2>
-    <p class="text-center">TimeBalance membantu pelajar, mahasiswa, karyawan, dan freelancer mengurangi prokrastinasi dengan sistem kerja–reward. Selesaikan tugas, dapatkan waktu hiburan.</p>
-  </div>
+<div class="container">
+
+<h2 class="section-title text-center"
+data-aos="fade-up">
+About TimeBalance
+</h2>
+
+<p class="text-center col-lg-8 mx-auto"
+data-aos="fade-up">
+
+TimeBalance adalah aplikasi manajemen waktu modern yang membantu pelajar, mahasiswa, karyawan, freelancer, dan remote worker meningkatkan produktivitas melalui sistem reward setelah menyelesaikan tugas.
+
+</p>
+
+</div>
 </section>
 
-<!-- Features -->
-<section id="features" class="py-5 bg-light">
-  <div class="container">
-    <h2 class="text-center mb-4" data-aos="fade-up">Fitur Unggulan</h2>
-    <div class="row g-4">
-      <div class="col-md-4" data-aos="zoom-in"><div class="card feature-card p-3"><i class="fa fa-list-check fa-2x mb-3"></i><h5>Smart To-Do List</h5></div></div>
-      <div class="col-md-4" data-aos="zoom-in"><div class="card feature-card p-3"><i class="fa fa-lock fa-2x mb-3"></i><h5>Focus Lock</h5></div></div>
-      <div class="col-md-4" data-aos="zoom-in"><div class="card feature-card p-3"><i class="fa fa-clock fa-2x mb-3"></i><h5>Pomodoro Timer</h5></div></div>
-      <div class="col-md-4" data-aos="zoom-in"><div class="card feature-card p-3"><i class="fa fa-wallet fa-2x mb-3"></i><h5>Leisure Wallet</h5></div></div>
-      <div class="col-md-4" data-aos="zoom-in"><div class="card feature-card p-3"><i class="fa fa-chart-line fa-2x mb-3"></i><h5>Productivity Analytics</h5></div></div>
-      <div class="col-md-4" data-aos="zoom-in"><div class="card feature-card p-3"><i class="fa fa-medal fa-2x mb-3"></i><h5>Achievement System</h5></div></div>
-    </div>
-  </div>
+<!-- PROBLEM -->
+<section class="py-5 bg-light">
+<div class="container">
+
+<div class="row">
+
+<div class="col-lg-6"
+data-aos="fade-right">
+
+<h3>Masalah</h3>
+
+<ul>
+
+<li>Sering prokrastinasi</li>
+<li>Tidak bisa fokus belajar</li>
+<li>Tidak seimbang antara kerja dan hiburan</li>
+<li>Kesulitan mengatur waktu</li>
+
+</ul>
+
+</div>
+
+<div class="col-lg-6"
+data-aos="fade-left">
+
+<h3>Solusi</h3>
+
+<ul>
+
+<li>Smart To-Do List</li>
+<li>Pomodoro Timer</li>
+<li>Focus Lock</li>
+<li>Leisure Time Wallet</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
 </section>
 
-<!-- How It Works -->
-<section id="how" class="py-5">
-  <div class="container" data-aos="fade-up">
-    <h2 class="text-center mb-4">Cara Kerja</h2>
-    <p class="text-center">1. Tambah tugas → 2. Mulai fokus → 3. Selesaikan tugas → 4. Dapatkan reward waktu hiburan → 5. Raih pencapaian produktivitas.</p>
-  </div>
+<!-- FEATURES -->
+<section id="features" class="py-5">
+<div class="container">
+
+<h2 class="section-title text-center">
+Fitur Unggulan
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4" data-aos="zoom-in">
+<div class="card p-4 text-center h-100">
+<i class="fas fa-list-check feature-icon"></i>
+<h5>Smart To-Do List</h5>
+<p>Kelola tugas dengan prioritas cerdas.</p>
+</div>
+</div>
+
+<div class="col-md-4" data-aos="zoom-in">
+<div class="card p-4 text-center h-100">
+<i class="fas fa-lock feature-icon"></i>
+<h5>Focus Lock</h5>
+<p>Blokir distraksi saat bekerja.</p>
+</div>
+</div>
+
+<div class="col-md-4" data-aos="zoom-in">
+<div class="card p-4 text-center h-100">
+<i class="fas fa-stopwatch feature-icon"></i>
+<h5>Pomodoro Timer</h5>
+<p>Belajar dan bekerja lebih fokus.</p>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card p-4 text-center h-100">
+<i class="fas fa-wallet feature-icon"></i>
+<h5>Leisure Wallet</h5>
+<p>Dapatkan waktu hiburan sebagai reward.</p>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card p-4 text-center h-100">
+<i class="fas fa-chart-line feature-icon"></i>
+<h5>Analytics</h5>
+<p>Pantau perkembangan produktivitas.</p>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card p-4 text-center h-100">
+<i class="fas fa-trophy feature-icon"></i>
+<h5>Achievement System</h5>
+<p>Dapatkan badge dan pencapaian.</p>
+</div>
+</div>
+
+</div>
+
+</div>
 </section>
 
-<!-- Pricing -->
-<section id="pricing" class="py-5 bg-light">
-  <div class="container" data-aos="fade-up">
-    <h2 class="text-center mb-4">Paket Harga</h2>
-    <div class="row g-4">
-      <div class="col-md-4"><div class="card p-3 text-center"><h5>Gratis</h5><p>Fitur dasar</p><button class="btn btn-primary">Mulai</button></div></div>
-      <div class="col-md-4"><div class="card p-3 text-center"><h5>Pro</h5><p>Fitur premium</p><button class="btn btn-primary">Langganan</button></div></div>
-      <div class="col-md-4"><div class="card p-3 text-center"><h5>Enterprise</h5><p>Untuk tim & organisasi</p><button class="btn btn-primary">Hubungi Kami</button></div></div>
-    </div>
-  </div>
+<!-- HOW IT WORKS -->
+<section id="how" class="py-5 bg-light">
+<div class="container">
+
+<h2 class="section-title text-center">
+Cara Kerja
+</h2>
+
+<div class="row text-center">
+
+<div class="col-md-4" data-aos="fade-up">
+
+<h1>1</h1>
+<h5>Buat Tugas</h5>
+
+</div>
+
+<div class="col-md-4" data-aos="fade-up">
+
+<h1>2</h1>
+<h5>Selesaikan Fokus Kerja</h5>
+
+</div>
+
+<div class="col-md-4" data-aos="fade-up">
+
+<h1>3</h1>
+<h5>Dapatkan Reward Time</h5>
+
+</div>
+
+</div>
+
+</div>
 </section>
 
-<!-- Blog -->
-<section id="blog" class="py-5">
-  <div class="container" data-aos="fade-up">
-    <h2 class="text-center mb-4">Artikel Produktivitas</h2>
-    <div class="row g-4">
-      <div class="col-md-4"><div class="card p-3"><h5>Manajemen Waktu Mahasiswa</h5><p>Tips mengatur waktu kuliah dan hiburan.</p><a href
+<!-- PRICING -->
+<section id="pricing" class="py-5">
+<div class="container">
+
+<h2 class="section-title text-center">
+Pricing Plan
+</h2>
+
+<div class="row justify-content-center">
+
+<div class="col-md-4">
+
+<div class="card pricing-card p-5 text-center">
+
+<h3>Free</h3>
+<h1>Rp0</h1>
+
+<ul class="list-unstyled">
+
+<li>To-Do List</li>
+<li>Pomodoro</li>
+<li>Analytics Dasar</li>
+
+</ul>
+
+<button class="btn btn-primary">
+Mulai Gratis
+</button>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card pricing-card p-5 text-center border-primary">
+
+<h3>Premium</h3>
+<h1>Rp49K</h1>
+
+<ul class="list-unstyled">
+
+<li>Focus Lock</li>
+<li>Leisure Wallet</li>
+<li>Achievement System</li>
+<li>Unlimited Analytics</li>
+
+</ul>
+
+<button class="btn btn-primary">
+Coba Sekarang
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- BLOG -->
+<section id="blog" class="py-5 bg-light">
+
+<div class="container">
+
+<h2 class="section-title text-center">
+Artikel Produktivitas
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+
+<div class="card blog-card">
+
+<img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80">
+
+<div class="p-4">
+
+<h5>Aplikasi Pomodoro untuk Fokus Belajar</h5>
+
+<a href="#" class="btn btn-primary">
+Baca Artikel
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card blog-card">
+
+<img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80">
+
+<div class="p-4">
+
+<h5>Cara Mengatur Waktu Mahasiswa</h5>
+
+<a href="#" class="btn btn-primary">
+Baca Artikel
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card blog-card">
+
+<img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=800&q=80">
+
+<div class="p-4">
+
+<h5>Work Life Balance untuk Produktivitas</h5>
+
+<a href="#" class="btn btn-primary">
+Baca Artikel
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-5">
+<div class="container">
+
+<h2 class="section-title text-center">
+FAQ
+</h2>
+
+<div class="accordion">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#f1">
+
+Apa itu TimeBalance?
+
+</button>
+</h2>
+
+<div id="f1"
+class="accordion-collapse collapse show">
+
+<div class="accordion-body">
+Aplikasi manajemen waktu berbasis Work-Reward Mechanism.
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#f2">
+
+Apakah gratis?
+
+</button>
+</h2>
+
+<div id="f2"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+Tersedia paket gratis dan premium.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="py-5 bg-primary text-white">
+
+<div class="container text-center">
+
+<h2>Dapatkan Tips Produktivitas</h2>
+
+<div class="row justify-content-center">
+
+<div class="col-lg-6">
+
+<div class="input-group mt-4">
+
+<input class="form-control"
+placeholder="Masukkan Email">
+
+<button class="btn btn-success">
+Subscribe
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-5">
+
+<div class="container">
+
+<h2 class="section-title text-center">
+Hubungi Kami
+</h2>
+
+<div class="row justify-content-center">
+
+<div class="col-lg-7">
+
+<form>
+
+<input class="form-control mb-3"
+placeholder="Nama">
+
+<input class="form-control mb-3"
+placeholder="Email">
+
+<textarea class="form-control mb-3"
+rows="5"
+placeholder="Pesan"></textarea>
+
+<button class="btn btn-primary">
+Kirim Pesan
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="py-5">
+
+<div class="container text-center">
+
+<h3>TimeBalance</h3>
+
+<p>
+Produktif Tanpa Burnout.
+</p>
+
+<div class="social">
+
+<a href="#">
+<i class="fab fa-facebook"></i>
+</a>
+
+<a href="#">
+<i class="fab fa-instagram"></i>
+</a>
+
+<a href="#">
+<i class="fab fa-x-twitter"></i>
+</a>
+
+<a href="#">
+<i class="fab fa-linkedin"></i>
+</a>
+
+</div>
+
+<p class="mt-4">
+© 2026 TimeBalance. All Rights Reserved.
+</p>
+
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+AOS.init();
+
+window.addEventListener("load",()=>{
+document.querySelector(".loader").style.display="none";
+});
+
+document.getElementById("darkToggle")
+.addEventListener("click",()=>{
+document.body.classList.toggle("dark-mode");
+});
+
+window.addEventListener("scroll",()=>{
+
+const top=document.getElementById("backTop");
+
+if(window.scrollY>300){
+top.style.display="flex";
+}else{
+top.style.display="none";
+}
+
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(link=>{
+link.addEventListener('click',function(e){
+
+e.preventDefault();
+
+document.querySelector(
+this.getAttribute('href')
+).scrollIntoView({
+behavior:'smooth'
+});
+
+});
+});
+</script>
+
+</body>
+</html>
