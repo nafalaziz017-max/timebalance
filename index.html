@@ -1,835 +1,1881 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="TimeBalance – aplikasi manajemen waktu dan produktivitas berbasis Work–Reward Mechanism. Selesaikan tugas, dapatkan waktu hiburan. Nikmati hidup tanpa mengorbankan masa depan."/>
+<meta name="keywords" content="TimeBalance, manajemen waktu, produktivitas, pomodoro, work life balance, aplikasi belajar, anti prokrastinasi"/>
+<title>TimeBalance – Nikmati Hidup Tanpa Mengorbankan Masa Depan</title>
 
-<title>TimeBalance - Aplikasi Manajemen Waktu & Produktivitas</title>
-
-<meta name="description" content="TimeBalance adalah aplikasi produktivitas dan manajemen waktu berbasis Work-Reward Mechanism untuk membantu fokus belajar, mengurangi prokrastinasi, dan meningkatkan produktivitas.">
-
-<meta name="keywords" content="
-aplikasi produktivitas,
-aplikasi manajemen waktu,
-aplikasi fokus belajar,
-aplikasi pomodoro,
-aplikasi anti prokrastinasi,
-cara mengatur waktu,
-produktivitas mahasiswa,
-aplikasi to do list,
-work life balance,
-productivity app,
-time management app">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<!-- Preconnect -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
 <style>
-
+/* ===== VARIABLES ===== */
 :root{
---primary:#4F46E5;
---secondary:#6366F1;
---success:#22C55E;
---bg:#F8FAFC;
---text:#0F172A;
+  --primary:#2E5E4E;
+  --primary-light:#3a7862;
+  --secondary:#5F8D6B;
+  --gold:#D4A937;
+  --gold-light:#E8C76A;
+  --success:#7DA36B;
+  --bg:#F8F5EE;
+  --card-bg:#FFFDF8;
+  --text:#1E2A24;
+  --text-muted:#6B7A70;
+  --border:#D8CFC0;
+  --hero-gradient:linear-gradient(135deg,#2E5E4E,#5F8D6B);
+  --btn-gradient:linear-gradient(90deg,#D4A937,#E8C76A);
+  --shadow-sm:0 2px 12px rgba(46,94,78,.08);
+  --shadow-md:0 8px 32px rgba(46,94,78,.12);
+  --shadow-lg:0 20px 60px rgba(46,94,78,.18);
+  --radius:24px;
+  --radius-pill:50px;
+  --transition:.3s cubic-bezier(.4,0,.2,1);
 }
 
-body{
-font-family:'Poppins',sans-serif;
-background:var(--bg);
-color:var(--text);
-scroll-behavior:smooth;
+/* Dark mode */
+body.dark{
+  --bg:#0f1a15;
+  --card-bg:#162118;
+  --text:#e8f0ea;
+  --text-muted:#8fad97;
+  --border:#2a3d30;
+  --shadow-sm:0 2px 12px rgba(0,0,0,.3);
+  --shadow-md:0 8px 32px rgba(0,0,0,.4);
 }
 
-.dark-mode{
-background:#0f172a;
-color:white;
-}
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;transition:background var(--transition),color var(--transition)}
+a{text-decoration:none;color:inherit}
+img{max-width:100%}
+ul{list-style:none}
 
-.dark-mode .card,
-.dark-mode .glass,
-.dark-mode .accordion-item{
-background:#1e293b;
-color:white;
+/* ===== LOADING SCREEN ===== */
+#loading{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--hero-gradient);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
+  transition:opacity .6s ease,visibility .6s ease;
 }
-
-.loader{
-position:fixed;
-width:100%;
-height:100%;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:99999;
+#loading.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.loading-logo{
+  font-size:2.2rem;font-weight:800;color:#fff;letter-spacing:-1px;
+  animation:pulse 1.4s ease infinite;
 }
-
+.loading-logo span{color:var(--gold)}
 .spinner{
-width:60px;
-height:60px;
-border:6px solid #eee;
-border-top:6px solid var(--primary);
-border-radius:50%;
-animation:spin 1s linear infinite;
+  width:48px;height:48px;
+  border:4px solid rgba(255,255,255,.2);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
 }
+.loading-text{color:rgba(255,255,255,.7);font-size:.85rem;letter-spacing:2px;text-transform:uppercase}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 
-@keyframes spin{
-100%{
-transform:rotate(360deg);
-}
-}
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--secondary);border-radius:3px}
 
+/* ===== NAVBAR ===== */
 .navbar{
-backdrop-filter:blur(20px);
-background:rgba(255,255,255,0.8);
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:18px 0;
+  transition:all var(--transition);
 }
-
-.hero{
-padding:150px 0;
-background:
-linear-gradient(
-135deg,
-#4F46E5,
-#6366F1
-);
-color:white;
+.navbar.scrolled{
+  background:rgba(248,245,238,.95);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:var(--shadow-sm);
+  padding:12px 0;
 }
-
-.hero h1{
-font-size:3rem;
-font-weight:700;
+body.dark .navbar.scrolled{background:rgba(15,26,21,.95)}
+.nav-inner{
+  max-width:1280px;margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;gap:32px;
 }
-
-.hero p{
-font-size:1.1rem;
+.nav-logo{font-size:1.4rem;font-weight:800;letter-spacing:-.5px;flex-shrink:0}
+.nav-logo .time{color:var(--primary)}
+.nav-logo .balance{color:var(--gold)}
+.navbar:not(.scrolled) .nav-logo .time{color:#fff}
+.navbar:not(.scrolled) .nav-logo .balance{color:var(--gold-light)}
+.nav-links{display:flex;align-items:center;gap:8px;margin-left:auto}
+.nav-links a{
+  padding:8px 14px;border-radius:12px;font-size:.85rem;font-weight:500;
+  color:rgba(255,255,255,.85);
+  transition:all var(--transition);
 }
-
-.glass{
-background:rgba(255,255,255,0.25);
-backdrop-filter:blur(20px);
-border-radius:20px;
-padding:30px;
+.navbar.scrolled .nav-links a{color:var(--text-muted)}
+.nav-links a:hover{background:rgba(255,255,255,.15);color:#fff}
+.navbar.scrolled .nav-links a:hover{background:rgba(46,94,78,.08);color:var(--primary)}
+.nav-actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.btn-download{
+  background:var(--btn-gradient);color:#1E2A24 !important;
+  padding:10px 22px;border-radius:var(--radius-pill);font-size:.82rem;font-weight:700;
+  box-shadow:0 4px 16px rgba(212,169,55,.35);
+  transition:all var(--transition);white-space:nowrap;
 }
-
-.section-title{
-font-size:2rem;
-font-weight:700;
-margin-bottom:20px;
+.btn-download:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(212,169,55,.5)}
+.dark-toggle{
+  width:40px;height:40px;border:none;border-radius:50%;
+  background:rgba(255,255,255,.15);color:#fff;font-size:1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all var(--transition);
 }
-
-.card{
-border:none;
-border-radius:20px;
-transition:0.4s;
+.navbar.scrolled .dark-toggle{background:rgba(46,94,78,.1);color:var(--primary)}
+.dark-toggle:hover{background:rgba(255,255,255,.25)}
+.hamburger{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:8px;
 }
-
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 20px 50px rgba(0,0,0,0.1);
+.hamburger span{width:24px;height:2px;background:#fff;border-radius:2px;transition:all var(--transition);display:block}
+.navbar.scrolled .hamburger span{background:var(--text)}
+.mobile-menu{
+  display:none;position:fixed;top:0;right:0;bottom:0;width:280px;
+  background:var(--card-bg);z-index:999;padding:80px 24px 24px;
+  box-shadow:var(--shadow-lg);transform:translateX(100%);
+  transition:transform var(--transition);
+  flex-direction:column;gap:8px;
 }
-
-.feature-icon{
-font-size:40px;
-color:var(--primary);
-margin-bottom:20px;
+.mobile-menu.open{transform:translateX(0);display:flex}
+.mobile-menu a{
+  padding:14px 20px;border-radius:16px;font-weight:500;
+  color:var(--text);transition:all var(--transition);font-size:.95rem;
 }
+.mobile-menu a:hover{background:rgba(46,94,78,.08);color:var(--primary)}
+.mobile-overlay{
+  display:none;position:fixed;inset:0;z-index:998;background:rgba(0,0,0,.5);
+  backdrop-filter:blur(4px);
+}
+.mobile-overlay.open{display:block}
 
+/* ===== BUTTONS ===== */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 32px;border-radius:var(--radius-pill);font-weight:600;font-size:.9rem;
+  cursor:pointer;border:none;transition:all var(--transition);
+  font-family:'Poppins',sans-serif;
+}
 .btn-primary{
-background:var(--primary);
-border:none;
+  background:var(--btn-gradient);color:#1E2A24;
+  box-shadow:0 6px 20px rgba(212,169,55,.4);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(212,169,55,.5)}
+.btn-outline{
+  background:transparent;color:#fff;
+  border:2px solid rgba(255,255,255,.4);
+}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.7)}
+.btn-green{
+  background:var(--primary);color:#fff;
+  box-shadow:0 6px 20px rgba(46,94,78,.35);
+}
+.btn-green:hover{background:var(--primary-light);transform:translateY(-2px)}
+
+/* ===== SECTIONS ===== */
+section{padding:100px 0}
+.container{max-width:1280px;margin:0 auto;padding:0 24px}
+.section-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(46,94,78,.1);color:var(--primary);
+  padding:8px 20px;border-radius:var(--radius-pill);font-size:.8rem;font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;margin-bottom:20px;
+  border:1px solid rgba(46,94,78,.15);
+}
+.section-title{font-size:clamp(2rem,4vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:16px;letter-spacing:-.5px}
+.section-title span{
+  background:var(--hero-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-desc{color:var(--text-muted);font-size:1.05rem;line-height:1.7;max-width:600px}
+.text-center{text-align:center}
+.text-center .section-desc{margin:0 auto}
+
+/* ===== HERO ===== */
+#hero{
+  min-height:100vh;
+  background:var(--hero-gradient);
+  display:flex;align-items:center;
+  padding:120px 0 80px;
+  position:relative;overflow:hidden;
+}
+/* Organic blobs */
+#hero::before{
+  content:'';position:absolute;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%);
+  top:-100px;right:-100px;border-radius:50%;
+}
+#hero::after{
+  content:'';position:absolute;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(212,169,55,.12) 0%,transparent 70%);
+  bottom:0;left:-50px;border-radius:50%;
+}
+/* Leaf decorations */
+.leaf{
+  position:absolute;opacity:.12;font-size:3rem;
+  animation:float 6s ease-in-out infinite;
+}
+.leaf-1{top:15%;left:8%;animation-delay:0s}
+.leaf-2{top:60%;right:5%;animation-delay:2s;font-size:2rem}
+.leaf-3{bottom:20%;left:15%;animation-delay:4s;font-size:2.5rem}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(8deg)}}
+
+.hero-inner{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+  position:relative;z-index:1;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.15);color:#fff;
+  padding:8px 20px;border-radius:var(--radius-pill);font-size:.82rem;font-weight:600;
+  border:1px solid rgba(255,255,255,.2);margin-bottom:24px;
+  backdrop-filter:blur(10px);
+}
+.hero-title{
+  font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;color:#fff;
+  line-height:1.15;letter-spacing:-1px;margin-bottom:20px;
+}
+.hero-title .highlight{color:var(--gold-light)}
+.hero-desc{color:rgba(255,255,255,.8);font-size:1.05rem;line-height:1.7;margin-bottom:32px;max-width:480px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+.hero-counters{
+  display:flex;gap:32px;flex-wrap:wrap;
+}
+.counter-item{
+  background:rgba(255,255,255,.1);backdrop-filter:blur(10px);
+  padding:16px 20px;border-radius:20px;border:1px solid rgba(255,255,255,.15);
+  text-align:center;
+}
+.counter-num{font-size:1.6rem;font-weight:800;color:#fff;line-height:1}
+.counter-label{font-size:.73rem;color:rgba(255,255,255,.7);margin-top:4px;font-weight:500}
+
+/* Dashboard mockup */
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
+.dashboard-card{
+  background:rgba(255,255,255,.12);backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.2);border-radius:28px;
+  padding:28px;width:340px;
+  box-shadow:0 30px 80px rgba(0,0,0,.2);
+  animation:floatCard 4s ease-in-out infinite;
+}
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.dash-title{color:#fff;font-weight:700;font-size:.95rem}
+.dash-date{color:rgba(255,255,255,.6);font-size:.75rem}
+.dash-progress-label{color:rgba(255,255,255,.7);font-size:.78rem;margin-bottom:8px;font-weight:500}
+.progress-bar-wrap{background:rgba(255,255,255,.15);border-radius:8px;height:8px;margin-bottom:20px}
+.progress-bar-fill{height:8px;border-radius:8px;background:var(--btn-gradient);width:72%;transition:width 1s ease}
+.dash-tasks{display:flex;flex-direction:column;gap:10px}
+.task-item{
+  background:rgba(255,255,255,.08);border-radius:14px;padding:12px 16px;
+  display:flex;align-items:center;gap:12px;
+}
+.task-check{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(125,163,107,.3);border:2px solid var(--success);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.task-check.done{background:var(--success);border-color:var(--success)}
+.task-check i{color:#fff;font-size:.65rem}
+.task-text{font-size:.8rem;color:rgba(255,255,255,.85);font-weight:500}
+.task-text.done{text-decoration:line-through;opacity:.5}
+.reward-badge{
+  margin-top:16px;background:rgba(212,169,55,.2);border:1px solid rgba(212,169,55,.3);
+  border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;
+}
+.reward-icon{font-size:1.2rem}
+.reward-text{font-size:.78rem;color:var(--gold-light);font-weight:600}
+
+/* Floating mini cards */
+.float-card{
+  position:absolute;background:rgba(255,255,255,.15);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.2);border-radius:18px;padding:12px 16px;
+  display:flex;align-items:center;gap:10px;white-space:nowrap;
+}
+.float-card-1{top:10%;right:-20px;animation:floatCard 5s ease-in-out infinite;animation-delay:1s}
+.float-card-2{bottom:15%;left:-30px;animation:floatCard 4.5s ease-in-out infinite;animation-delay:2.5s}
+.fc-icon{
+  width:36px;height:36px;border-radius:50%;background:rgba(212,169,55,.25);
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--gold-light);
+}
+.fc-label{font-size:.73rem;color:rgba(255,255,255,.8);font-weight:600}
+.fc-sub{font-size:.65rem;color:rgba(255,255,255,.5)}
+
+/* Wave divider */
+.wave{display:block;width:100%;height:80px;overflow:hidden;line-height:0}
+.wave svg{display:block}
+
+/* ===== ABOUT ===== */
+#about{background:var(--bg)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.about-card{
+  background:var(--card-bg);border-radius:var(--radius);padding:24px;
+  border:1px solid var(--border);box-shadow:var(--shadow-sm);
+  transition:all var(--transition);
+}
+.about-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.about-card-icon{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+  margin-bottom:14px;
+}
+.icon-green{background:rgba(46,94,78,.1);color:var(--primary)}
+.icon-gold{background:rgba(212,169,55,.12);color:var(--gold)}
+.icon-sage{background:rgba(95,141,107,.12);color:var(--secondary)}
+.about-card h4{font-size:.95rem;font-weight:700;margin-bottom:8px}
+.about-card p{font-size:.83rem;color:var(--text-muted);line-height:1.6}
+
+/* ===== CORE VALUES ===== */
+#values{background:var(--card-bg)}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:48px}
+.value-card{
+  background:var(--bg);border-radius:var(--radius);padding:28px 24px;
+  border:1px solid var(--border);transition:all var(--transition);position:relative;overflow:hidden;
+}
+.value-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:var(--hero-gradient);border-radius:4px 4px 0 0;
+  transform:scaleX(0);transform-origin:left;transition:transform var(--transition);
+}
+.value-card:hover::before{transform:scaleX(1)}
+.value-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.value-icon{
+  width:56px;height:56px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+  margin-bottom:18px;background:var(--hero-gradient);color:#fff;
+  box-shadow:0 8px 20px rgba(46,94,78,.3);
+}
+.value-card h3{font-size:1rem;font-weight:700;margin-bottom:6px}
+.value-card p{font-size:.82rem;color:var(--text-muted);line-height:1.6;margin-bottom:12px}
+.value-quote{
+  font-size:.78rem;color:var(--primary);font-style:italic;font-weight:500;
+  border-left:3px solid var(--gold);padding-left:10px;
 }
 
-.btn-primary:hover{
-transform:scale(1.05);
+/* ===== PROBLEM & SOLUTION ===== */
+#problem{background:var(--bg)}
+.ps-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.ps-box{border-radius:var(--radius);padding:36px}
+.ps-problem{background:#fff3f3;border:1px solid #f0c0c0}
+body.dark .ps-problem{background:rgba(200,50,50,.05);border-color:rgba(200,50,50,.2)}
+.ps-solution{background:rgba(46,94,78,.06);border:1px solid rgba(46,94,78,.15)}
+.ps-box h3{font-size:1.2rem;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.ps-list{display:flex;flex-direction:column;gap:12px}
+.ps-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;border-radius:14px;background:rgba(255,255,255,.6);
+  font-size:.88rem;font-weight:500;border:1px solid rgba(0,0,0,.04);
+}
+body.dark .ps-item{background:rgba(255,255,255,.04)}
+.ps-item .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.dot-red{background:#e74c3c}
+.dot-green{background:var(--success)}
+
+/* ===== FEATURES ===== */
+#features{background:var(--card-bg)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:48px}
+.feature-card{
+  background:var(--bg);border-radius:var(--radius);padding:32px;
+  border:1px solid var(--border);transition:all var(--transition);
+  display:flex;flex-direction:column;gap:14px;
+}
+.feature-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:var(--secondary)}
+.feature-icon-wrap{
+  width:60px;height:60px;border-radius:18px;
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+  background:var(--hero-gradient);color:#fff;
+  box-shadow:0 8px 20px rgba(46,94,78,.3);
+}
+.feature-card h3{font-size:1.05rem;font-weight:700}
+.feature-card p{font-size:.85rem;color:var(--text-muted);line-height:1.6}
+.feature-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(46,94,78,.08);color:var(--primary);
+  padding:5px 14px;border-radius:20px;font-size:.73rem;font-weight:600;
+  width:fit-content;
 }
 
+/* ===== UVP ===== */
+#uvp{background:var(--bg)}
+.uvp-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.uvp-cards{display:flex;flex-direction:column;gap:20px}
+.uvp-card{
+  background:var(--card-bg);border-radius:var(--radius);padding:24px;
+  border:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;
+  transition:all var(--transition);
+}
+.uvp-card:hover{border-color:var(--secondary);box-shadow:var(--shadow-sm);transform:translateX(6px)}
+.uvp-num{
+  width:44px;height:44px;border-radius:14px;background:var(--hero-gradient);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;font-weight:800;color:#fff;flex-shrink:0;
+}
+.uvp-content h4{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.uvp-content p{font-size:.83rem;color:var(--text-muted);line-height:1.6}
+.phone-mockup{
+  background:var(--hero-gradient);border-radius:32px;padding:32px;
+  box-shadow:var(--shadow-lg);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:16px;
+  animation:floatCard 5s ease-in-out infinite;
+}
+.phone-mockup::after{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:160px;height:160px;border-radius:50%;
+  background:rgba(255,255,255,.07);
+}
+.pm-badge{
+  background:rgba(255,255,255,.15);border-radius:12px;padding:10px 14px;
+  display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.2);
+}
+.pm-badge-icon{font-size:1.2rem}
+.pm-badge-text{font-size:.8rem;color:#fff;font-weight:600}
+.pm-badge-sub{font-size:.7rem;color:rgba(255,255,255,.65)}
+.pm-timer{
+  background:rgba(212,169,55,.2);border:1px solid rgba(212,169,55,.3);
+  border-radius:16px;padding:20px;text-align:center;
+}
+.pm-timer-num{font-size:2.5rem;font-weight:800;color:var(--gold-light);line-height:1}
+.pm-timer-label{font-size:.75rem;color:rgba(255,255,255,.7);margin-top:4px}
+.pm-reward{
+  background:rgba(125,163,107,.2);border:1px solid rgba(125,163,107,.3);
+  border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px;
+}
+.pm-reward-text{font-size:.8rem;color:rgba(255,255,255,.9);font-weight:500}
+
+/* ===== HOW IT WORKS ===== */
+#how{background:var(--card-bg)}
+.how-steps{
+  display:flex;justify-content:space-between;gap:0;margin-top:60px;
+  position:relative;
+}
+.how-steps::before{
+  content:'';position:absolute;top:36px;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,var(--primary),var(--gold));
+  z-index:0;
+}
+.how-step{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  flex:1;position:relative;z-index:1;
+}
+.how-step-icon{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--hero-gradient);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+  box-shadow:0 8px 24px rgba(46,94,78,.3);margin-bottom:20px;
+  border:4px solid var(--bg);
+}
+.how-step-num{
+  position:absolute;top:-6px;right:calc(50% - 44px);
+  width:22px;height:22px;border-radius:50%;background:var(--gold);
+  font-size:.7rem;font-weight:800;color:#1E2A24;
+  display:flex;align-items:center;justify-content:center;
+}
+.how-step h4{font-size:.9rem;font-weight:700;margin-bottom:6px}
+.how-step p{font-size:.78rem;color:var(--text-muted);line-height:1.5;padding:0 8px}
+
+/* ===== TESTIMONIALS ===== */
+#testimonials{background:var(--bg)}
+.swiper-container{padding:20px 0 50px !important}
+.testimonial-card{
+  background:var(--card-bg);border-radius:var(--radius);padding:32px;
+  border:1px solid var(--border);box-shadow:var(--shadow-sm);
+}
+.test-quote{font-size:.95rem;color:var(--text);line-height:1.7;margin-bottom:24px;font-style:italic}
+.test-footer{display:flex;align-items:center;gap:14px}
+.test-avatar{
+  width:48px;height:48px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;
+  color:#fff;flex-shrink:0;
+}
+.test-name{font-size:.9rem;font-weight:700}
+.test-role{font-size:.78rem;color:var(--text-muted)}
+.test-stars{color:var(--gold);font-size:.85rem;margin-top:4px}
+.swiper-pagination-bullet{background:var(--secondary) !important}
+.swiper-pagination-bullet-active{background:var(--primary) !important}
+
+/* ===== PRICING ===== */
+#pricing{background:var(--card-bg)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;align-items:start}
 .pricing-card{
-border:2px solid transparent;
+  background:var(--bg);border-radius:var(--radius);padding:36px;
+  border:2px solid var(--border);transition:all var(--transition);position:relative;overflow:hidden;
+}
+.pricing-card.popular{
+  background:var(--hero-gradient);border-color:transparent;
+  box-shadow:var(--shadow-lg);transform:scale(1.04);
+}
+.pricing-card:hover:not(.popular){transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:var(--secondary)}
+.pricing-badge{
+  position:absolute;top:16px;right:16px;
+  background:var(--btn-gradient);color:#1E2A24;
+  padding:5px 14px;border-radius:20px;font-size:.73rem;font-weight:700;
+}
+.pricing-plan{font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;opacity:.7}
+.popular .pricing-plan{color:rgba(255,255,255,.7)}
+.pricing-price{font-size:2.4rem;font-weight:900;letter-spacing:-1px;margin-bottom:4px;line-height:1}
+.popular .pricing-price{color:#fff}
+.pricing-period{font-size:.8rem;color:var(--text-muted);margin-bottom:24px}
+.popular .pricing-period{color:rgba(255,255,255,.6)}
+.pricing-divider{height:1px;background:var(--border);margin:20px 0}
+.popular .pricing-divider{background:rgba(255,255,255,.15)}
+.pricing-features{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.pricing-feat{display:flex;align-items:center;gap:10px;font-size:.85rem}
+.popular .pricing-feat{color:rgba(255,255,255,.9)}
+.pricing-feat i{color:var(--success);font-size:.8rem}
+.popular .pricing-feat i{color:var(--gold-light)}
+.btn-pricing{
+  width:100%;padding:14px;border-radius:var(--radius-pill);
+  font-weight:700;font-size:.9rem;cursor:pointer;
+  border:none;font-family:'Poppins',sans-serif;transition:all var(--transition);
+}
+.btn-pricing-free{background:var(--hero-gradient);color:#fff}
+.btn-pricing-free:hover{opacity:.9}
+.btn-pricing-premium{background:var(--btn-gradient);color:#1E2A24}
+.btn-pricing-premium:hover{opacity:.9;transform:translateY(-1px)}
+.btn-pricing-annual{
+  background:rgba(255,255,255,.15);color:#fff;
+  border:2px solid rgba(255,255,255,.3);
+}
+.btn-pricing-annual:hover{background:rgba(255,255,255,.25)}
+
+/* ===== REVENUE ===== */
+#revenue{background:var(--bg)}
+.revenue-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:48px}
+.revenue-card{
+  background:var(--card-bg);border-radius:var(--radius);padding:28px;
+  border:1px solid var(--border);transition:all var(--transition);
+}
+.revenue-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.revenue-card-icon{
+  width:52px;height:52px;border-radius:16px;margin-bottom:16px;
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
 }
 
-.pricing-card:hover{
-border-color:var(--primary);
+/* ===== BLOG ===== */
+#blog{background:var(--card-bg)}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:48px}
+.blog-card{
+  background:var(--bg);border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--border);transition:all var(--transition);cursor:pointer;
+}
+.blog-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.blog-thumb{
+  height:180px;display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;position:relative;overflow:hidden;
+}
+.blog-body{padding:24px}
+.blog-tag{
+  display:inline-flex;align-items:center;
+  background:rgba(46,94,78,.1);color:var(--primary);
+  padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:600;
+  margin-bottom:10px;
+}
+.blog-card h3{font-size:.95rem;font-weight:700;line-height:1.4;margin-bottom:8px}
+.blog-card p{font-size:.8rem;color:var(--text-muted);line-height:1.6}
+.blog-meta{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:.75rem;color:var(--text-muted)}
+.blog-meta i{color:var(--secondary);font-size:.75rem}
+
+/* Modal */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:5000;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.open{display:flex}
+.modal-box{
+  background:var(--card-bg);border-radius:var(--radius);
+  max-width:760px;width:100%;max-height:85vh;overflow-y:auto;
+  padding:40px;position:relative;
+}
+.modal-close{
+  position:sticky;top:0;float:right;margin-bottom:16px;
+  width:36px;height:36px;border-radius:50%;border:none;
+  background:rgba(46,94,78,.1);color:var(--primary);cursor:pointer;
+  font-size:1rem;display:flex;align-items:center;justify-content:center;
+  font-family:'Poppins',sans-serif;
+}
+.modal-close:hover{background:var(--primary);color:#fff}
+.modal-tag{
+  display:inline-flex;align-items:center;
+  background:rgba(46,94,78,.1);color:var(--primary);
+  padding:5px 14px;border-radius:20px;font-size:.75rem;font-weight:600;
+  margin-bottom:16px;
+}
+.modal-title{font-size:1.5rem;font-weight:800;margin-bottom:12px;line-height:1.3}
+.modal-meta{font-size:.8rem;color:var(--text-muted);margin-bottom:24px;display:flex;gap:16px;flex-wrap:wrap}
+.modal-meta i{color:var(--secondary)}
+.modal-content h4{font-size:1rem;font-weight:700;margin:20px 0 10px;color:var(--primary)}
+.modal-content p{font-size:.9rem;color:var(--text-muted);line-height:1.8;margin-bottom:12px}
+.modal-content ul{padding-left:20px;display:flex;flex-direction:column;gap:8px}
+.modal-content ul li{font-size:.88rem;color:var(--text-muted);line-height:1.6}
+
+/* ===== FAQ ===== */
+#faq{background:var(--bg)}
+.faq-list{display:flex;flex-direction:column;gap:12px;max-width:760px;margin:48px auto 0}
+.faq-item{
+  background:var(--card-bg);border-radius:var(--radius);
+  border:1px solid var(--border);overflow:hidden;
+}
+.faq-q{
+  width:100%;padding:20px 24px;background:none;border:none;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  font-family:'Poppins',sans-serif;font-size:.92rem;font-weight:600;
+  color:var(--text);cursor:pointer;text-align:left;
+  transition:all var(--transition);
+}
+.faq-q:hover{color:var(--primary)}
+.faq-q .fa-chevron-down{transition:transform var(--transition);color:var(--secondary);font-size:.8rem;flex-shrink:0}
+.faq-item.open .faq-q .fa-chevron-down{transform:rotate(180deg)}
+.faq-a{
+  max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;
+  font-size:.88rem;color:var(--text-muted);line-height:1.7;
+}
+.faq-item.open .faq-a{max-height:300px;padding:0 24px 20px}
+
+/* ===== NEWSLETTER ===== */
+#newsletter{
+  background:var(--hero-gradient);padding:80px 0;
+  position:relative;overflow:hidden;
+}
+#newsletter::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:300px;height:300px;border-radius:50%;
+  background:rgba(255,255,255,.05);
+}
+.newsletter-inner{max-width:600px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.newsletter-inner h2{font-size:2rem;font-weight:800;color:#fff;margin-bottom:12px}
+.newsletter-inner p{color:rgba(255,255,255,.75);margin-bottom:32px;line-height:1.6}
+.newsletter-form{display:flex;gap:12px;max-width:480px;margin:0 auto}
+.newsletter-form input{
+  flex:1;padding:14px 20px;border-radius:var(--radius-pill);border:2px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.12);color:#fff;font-family:'Poppins',sans-serif;
+  font-size:.9rem;outline:none;transition:all var(--transition);
+}
+.newsletter-form input::placeholder{color:rgba(255,255,255,.5)}
+.newsletter-form input:focus{border-color:var(--gold-light);background:rgba(255,255,255,.18)}
+.newsletter-form button{
+  padding:14px 28px;border-radius:var(--radius-pill);border:none;
+  background:var(--btn-gradient);color:#1E2A24;font-weight:700;
+  font-family:'Poppins',sans-serif;cursor:pointer;transition:all var(--transition);white-space:nowrap;
+}
+.newsletter-form button:hover{transform:scale(1.03);box-shadow:0 6px 20px rgba(212,169,55,.5)}
+#nl-msg{margin-top:14px;font-size:.85rem;font-weight:600;min-height:20px}
+#nl-msg.success{color:var(--gold-light)}
+#nl-msg.error{color:#ff9090}
+
+/* ===== CONTACT ===== */
+#contact{background:var(--card-bg)}
+.contact-inner{display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:start}
+.contact-info h2{font-size:1.8rem;font-weight:800;margin-bottom:12px}
+.contact-info p{color:var(--text-muted);line-height:1.7;margin-bottom:32px}
+.contact-items{display:flex;flex-direction:column;gap:16px}
+.contact-item{display:flex;align-items:center;gap:14px}
+.contact-icon{
+  width:44px;height:44px;border-radius:14px;
+  background:rgba(46,94,78,.1);color:var(--primary);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+}
+.contact-detail p{font-size:.8rem;color:var(--text-muted);margin-bottom:2px}
+.contact-detail strong{font-size:.9rem}
+.social-row{display:flex;gap:12px;margin-top:28px}
+.social-btn{
+  width:44px;height:44px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;transition:all var(--transition);border:1px solid var(--border);
+  color:var(--text-muted);
+}
+.social-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary);transform:translateY(-2px)}
+.contact-form-card{
+  background:var(--bg);border-radius:var(--radius);padding:36px;
+  border:1px solid var(--border);
+}
+.form-group{margin-bottom:20px}
+.form-group label{font-size:.82rem;font-weight:600;margin-bottom:8px;display:block}
+.form-group input,.form-group textarea{
+  width:100%;padding:14px 18px;border-radius:16px;
+  border:2px solid var(--border);background:var(--card-bg);
+  color:var(--text);font-family:'Poppins',sans-serif;font-size:.88rem;
+  outline:none;transition:all var(--transition);resize:vertical;
+}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--secondary)}
+.form-group textarea{min-height:120px}
+
+/* ===== FOOTER ===== */
+footer{background:var(--text);color:rgba(255,255,255,.75);padding:64px 0 32px}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand .nav-logo{font-size:1.6rem;margin-bottom:14px;display:inline-block}
+.footer-brand .nav-logo .time{color:#7DA36B}
+.footer-brand .nav-logo .balance{color:var(--gold)}
+.footer-brand p{font-size:.85rem;line-height:1.7;margin-bottom:20px;color:rgba(255,255,255,.55)}
+.footer-social{display:flex;gap:10px}
+.footer-social a{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;
+  transition:all var(--transition);
+}
+.footer-social a:hover{background:var(--primary);color:#fff}
+.footer-col h4{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:18px;letter-spacing:.5px}
+.footer-col ul{display:flex;flex-direction:column;gap:10px}
+.footer-col ul a{font-size:.83rem;color:rgba(255,255,255,.55);transition:color var(--transition)}
+.footer-col ul a:hover{color:#fff}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.08);padding-top:28px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-bottom p{font-size:.8rem;color:rgba(255,255,255,.4)}
+.footer-bottom-links{display:flex;gap:20px}
+.footer-bottom-links a{font-size:.78rem;color:rgba(255,255,255,.4);transition:color var(--transition)}
+.footer-bottom-links a:hover{color:rgba(255,255,255,.8)}
+
+/* ===== BACK TO TOP ===== */
+#btt{
+  position:fixed;bottom:28px;right:28px;z-index:999;
+  width:48px;height:48px;border-radius:50%;border:none;
+  background:var(--primary);color:#fff;font-size:1.1rem;cursor:pointer;
+  box-shadow:var(--shadow-md);transition:all var(--transition);
+  display:none;align-items:center;justify-content:center;
+}
+#btt.visible{display:flex}
+#btt:hover{background:var(--primary-light);transform:translateY(-3px)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .hero-inner,.about-inner,.uvp-inner,.contact-inner,.ps-grid{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .pricing-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
+  .pricing-card.popular{transform:none}
+  .how-steps{flex-direction:column;align-items:center;gap:32px}
+  .how-steps::before{display:none}
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+}
+@media(max-width:600px){
+  section{padding:64px 0}
+  .about-cards{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr}
+  .newsletter-form{flex-direction:column}
+  .hero-counters{gap:12px}
+  .counter-item{flex:1;padding:12px}
 }
 
-footer{
-background:#0f172a;
-color:white;
-}
-
-.social a{
-color:white;
-margin-right:15px;
-font-size:22px;
-}
-
-.back-top{
-position:fixed;
-right:20px;
-bottom:20px;
-background:var(--primary);
-width:50px;
-height:50px;
-display:flex;
-justify-content:center;
-align-items:center;
-border-radius:50%;
-color:white;
-text-decoration:none;
-display:none;
-}
-
-.blog-card img{
-border-radius:20px 20px 0 0;
-}
-
-@media(max-width:768px){
-
-.hero{
-text-align:center;
-padding:120px 0;
-}
-
-.hero h1{
-font-size:2.3rem;
-}
-
-}
-
+/* ===== AOS OVERRIDES ===== */
+[data-aos]{transition-duration:.7s}
 </style>
 </head>
 <body>
 
-<div class="loader">
-<div class="spinner"></div>
+<!-- LOADING SCREEN -->
+<div id="loading">
+  <div class="loading-logo"><span>Time</span>Balance</div>
+  <div class="spinner"></div>
+  <div class="loading-text">Memuat pengalaman terbaik…</div>
 </div>
 
-<a href="#" class="back-top" id="backTop">
-<i class="fas fa-arrow-up"></i>
-</a>
+<!-- BACK TO TOP -->
+<button id="btt" aria-label="Kembali ke atas"><i class="fas fa-arrow-up"></i></button>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg fixed-top shadow-sm">
-<div class="container">
+<!-- MOBILE OVERLAY -->
+<div class="mobile-overlay" id="mob-overlay" onclick="closeMobileMenu()"></div>
 
-<a class="navbar-brand fw-bold text-primary">
-<i class="fas fa-clock"></i> TimeBalance
-</a>
-
-<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
-<span class="navbar-toggler-icon"></span>
-</button>
-
-<div class="collapse navbar-collapse" id="nav">
-
-<ul class="navbar-nav ms-auto">
-
-<li class="nav-item">
-<a class="nav-link" href="#about">About</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#features">Features</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#how">How It Works</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#pricing">Pricing</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#blog">Blog</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#faq">FAQ</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#contact">Contact</a>
-</li>
-
-<li class="nav-item ms-2">
-<button class="btn btn-dark btn-sm" id="darkToggle">
-🌙
-</button>
-</li>
-
-</ul>
-
-</div>
-</div>
+<!-- MOBILE MENU -->
+<nav class="mobile-menu" id="mob-menu" role="navigation">
+  <a href="#hero" onclick="closeMobileMenu()"><i class="fas fa-home"></i> Home</a>
+  <a href="#about" onclick="closeMobileMenu()">Tentang</a>
+  <a href="#features" onclick="closeMobileMenu()">Fitur</a>
+  <a href="#how" onclick="closeMobileMenu()">Cara Kerja</a>
+  <a href="#pricing" onclick="closeMobileMenu()">Harga</a>
+  <a href="#blog" onclick="closeMobileMenu()">Blog</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="#contact" onclick="closeMobileMenu()">Kontak</a>
+  <a href="#" class="btn btn-primary" style="margin-top:16px;justify-content:center" onclick="closeMobileMenu()"><i class="fas fa-download"></i> Download App</a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo"><span class="time">Time</span><span class="balance">Balance</span></a>
+    <nav class="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#about">Tentang</a>
+      <a href="#features">Fitur</a>
+      <a href="#how">Cara Kerja</a>
+      <a href="#pricing">Harga</a>
+      <a href="#blog">Blog</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Kontak</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="dark-toggle" id="dark-toggle" aria-label="Toggle dark mode"><i class="fas fa-moon"></i></button>
+      <a href="#pricing" class="btn-download"><i class="fas fa-leaf"></i> Download App</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu" onclick="openMobileMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
 
-<div class="container">
-
-<div class="row align-items-center">
-
-<div class="col-lg-6" data-aos="fade-right">
-
-<h1>Kelola Waktu dengan Lebih Seimbang</h1>
-
-<p class="mt-4">
-Selesaikan tugas terlebih dahulu dan nikmati waktu hiburan sebagai reward melalui sistem Work–Reward Mechanism.
-</p>
-
-<div class="mt-4">
-
-<a href="#" class="btn btn-light btn-lg me-2">
-Coba Sekarang
-</a>
-
-<a href="#features" class="btn btn-outline-light btn-lg">
-Pelajari Fitur
-</a>
-
-</div>
-
-</div>
-
-<div class="col-lg-6 text-center mt-5 mt-lg-0"
-data-aos="fade-left">
-
-<div class="glass">
-
-<i class="fas fa-clock fa-6x mb-4"></i>
-
-<h3>Produktif Tanpa Burnout</h3>
-
-<p>
-Bekerja lebih fokus, bermain tanpa rasa bersalah.
-</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
+<!-- ======================== HERO ======================== -->
+<section id="hero">
+  <span class="leaf leaf-1">🍃</span>
+  <span class="leaf leaf-2">🌿</span>
+  <span class="leaf leaf-3">🍀</span>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content" data-aos="fade-right">
+        <div class="hero-badge">🏆 #1 Productivity App for Students &amp; Remote Workers</div>
+        <h1 class="hero-title">Kelola Waktu dengan Lebih <span class="highlight">Seimbang</span> dan Produktif</h1>
+        <p class="hero-desc">TimeBalance membantu Anda menyelesaikan pekerjaan terlebih dahulu dan mendapatkan waktu hiburan sebagai reward melalui sistem <strong style="color:var(--gold-light)">Work–Reward Mechanism</strong>.</p>
+        <div class="hero-cta">
+          <a href="#pricing" class="btn btn-primary"><i class="fas fa-rocket"></i> Coba Sekarang</a>
+          <a href="#how" class="btn btn-outline"><i class="fas fa-play"></i> Lihat Demo</a>
+        </div>
+        <div class="hero-counters">
+          <div class="counter-item">
+            <div class="counter-num" data-target="10000">0</div>
+            <div class="counter-label">Pengguna Aktif</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-num" data-target="500000">0</div>
+            <div class="counter-label">Tugas Selesai</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-num" data-target="92" data-suffix="%">0</div>
+            <div class="counter-label">Lebih Produktif</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
+        <div class="dashboard-card">
+          <div class="dash-header">
+            <div class="dash-title">📊 Dashboard Hari Ini</div>
+            <div class="dash-date">Senin, 15 Jun</div>
+          </div>
+          <div class="dash-progress-label">Progres Tugas — 72%</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+          <div class="dash-tasks">
+            <div class="task-item">
+              <div class="task-check done"><i class="fas fa-check"></i></div>
+              <div class="task-text done">Baca materi kuliah (60 mnt)</div>
+            </div>
+            <div class="task-item">
+              <div class="task-check done"><i class="fas fa-check"></i></div>
+              <div class="task-text done">Kerjakan laporan bab 3</div>
+            </div>
+            <div class="task-item">
+              <div class="task-check"></div>
+              <div class="task-text">Review slide presentasi</div>
+            </div>
+          </div>
+          <div class="reward-badge">
+            <div class="reward-icon">🎁</div>
+            <div class="reward-text">+45 menit waktu santai terbuka!</div>
+          </div>
+        </div>
+        <div class="float-card float-card-1">
+          <div class="fc-icon"><i class="fas fa-fire"></i></div>
+          <div>
+            <div class="fc-label">Streak 🔥</div>
+            <div class="fc-sub">14 hari berturut-turut</div>
+          </div>
+        </div>
+        <div class="float-card float-card-2">
+          <div class="fc-icon"><i class="fas fa-clock"></i></div>
+          <div>
+            <div class="fc-label">Fokus Aktif</div>
+            <div class="fc-sub">Pomodoro: 18:32 tersisa</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about" class="py-5">
-<div class="container">
+<!-- Wave -->
+<div class="wave"><svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="var(--bg)"/></svg></div>
 
-<h2 class="section-title text-center"
-data-aos="fade-up">
-About TimeBalance
-</h2>
-
-<p class="text-center col-lg-8 mx-auto"
-data-aos="fade-up">
-
-TimeBalance adalah aplikasi manajemen waktu modern yang membantu pelajar, mahasiswa, karyawan, freelancer, dan remote worker meningkatkan produktivitas melalui sistem reward setelah menyelesaikan tugas.
-
-</p>
-
-</div>
+<!-- ======================== ABOUT ======================== -->
+<section id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div data-aos="fade-right">
+        <div class="section-badge"><i class="fas fa-seedling"></i> Tentang Kami</div>
+        <h2 class="section-title">Apa Itu <span>TimeBalance?</span></h2>
+        <p class="section-desc">TimeBalance adalah aplikasi produktivitas dan manajemen waktu yang membantu pengguna mengurangi prokrastinasi, meningkatkan fokus, dan menyeimbangkan pekerjaan dengan hiburan melalui sistem <strong>Work–Reward Mechanism</strong>.</p>
+        <br/>
+        <p class="section-desc">Dengan TimeBalance, Anda tidak hanya diarahkan untuk bekerja lebih keras, tapi juga diajarkan untuk bekerja lebih cerdas — membangun kebiasaan disiplin yang berkelanjutan tanpa kehilangan kesenangan hidup.</p>
+        <br/>
+        <a href="#features" class="btn btn-green"><i class="fas fa-arrow-right"></i> Lihat Fitur Lengkap</a>
+      </div>
+      <div data-aos="fade-left" data-aos-delay="100">
+        <div class="about-cards">
+          <div class="about-card">
+            <div class="about-card-icon icon-green"><i class="fas fa-bullseye"></i></div>
+            <h4>Misi Kami</h4>
+            <p>Membantu pengguna membangun kebiasaan produktif dan sehat yang bertahan jangka panjang.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon icon-gold"><i class="fas fa-eye"></i></div>
+            <h4>Visi Kami</h4>
+            <p>Menjadi aplikasi produktivitas yang membantu jutaan orang mencapai keseimbangan hidup sejati.</p>
+          </div>
+          <div class="about-card" style="grid-column:1/-1">
+            <div class="about-card-icon icon-sage"><i class="fas fa-star"></i></div>
+            <h4>Keunggulan Kami</h4>
+            <p>Menggabungkan sistem produktivitas dan reward dalam satu aplikasi — satu-satunya di kelasnya. Kerja dulu, santai belakangan, tanpa rasa bersalah.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- PROBLEM -->
-<section class="py-5 bg-light">
-<div class="container">
-
-<div class="row">
-
-<div class="col-lg-6"
-data-aos="fade-right">
-
-<h3>Masalah</h3>
-
-<ul>
-
-<li>Sering prokrastinasi</li>
-<li>Tidak bisa fokus belajar</li>
-<li>Tidak seimbang antara kerja dan hiburan</li>
-<li>Kesulitan mengatur waktu</li>
-
-</ul>
-
-</div>
-
-<div class="col-lg-6"
-data-aos="fade-left">
-
-<h3>Solusi</h3>
-
-<ul>
-
-<li>Smart To-Do List</li>
-<li>Pomodoro Timer</li>
-<li>Focus Lock</li>
-<li>Leisure Time Wallet</li>
-
-</ul>
-
-</div>
-
-</div>
-
-</div>
+<!-- ======================== CORE VALUES ======================== -->
+<section id="values">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <div class="section-badge"><i class="fas fa-gem"></i> Core Values</div>
+      <h2 class="section-title">Nilai yang <span>Kami Pegang</span></h2>
+      <p class="section-desc">Lima prinsip yang menjadi fondasi TimeBalance dalam membantu pengguna menjadi versi terbaik diri mereka.</p>
+    </div>
+    <div class="values-grid">
+      <div class="value-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="value-icon">🎯</div>
+        <h3>Discipline — Kedisiplinan</h3>
+        <p>TimeBalance membantu pengguna membangun kebiasaan disiplin dalam mengatur waktu secara konsisten.</p>
+        <div class="value-quote">"User tidak hanya diingatkan, tetapi dibentuk menjadi lebih teratur."</div>
+      </div>
+      <div class="value-card" data-aos="fade-up" data-aos-delay="80">
+        <div class="value-icon">⚖️</div>
+        <h3>Balance — Keseimbangan</h3>
+        <p>Aplikasi menekankan keseimbangan antara hiburan dan tanggung jawab untuk hidup yang harmonis.</p>
+        <div class="value-quote">"Hidup tetap dinikmati tanpa mengorbankan masa depan."</div>
+      </div>
+      <div class="value-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="value-icon">⚡</div>
+        <h3>Productivity — Produktivitas</h3>
+        <p>Setiap menit berharga. TimeBalance memastikan waktu Anda digunakan untuk hal yang benar-benar penting.</p>
+        <div class="value-quote">"Waktu digunakan secara optimal untuk hal yang penting."</div>
+      </div>
+      <div class="value-card" data-aos="fade-up" data-aos-delay="240">
+        <div class="value-icon">🧘</div>
+        <h3>Self-Control — Kontrol Diri</h3>
+        <p>Kendalikan waktu Anda, bukan sebaliknya. TimeBalance memberikan kendali penuh di tangan Anda.</p>
+        <div class="value-quote">"User memiliki kendali penuh atas waktunya."</div>
+      </div>
+      <div class="value-card" data-aos="fade-up" data-aos-delay="320">
+        <div class="value-icon">🌱</div>
+        <h3>Growth — Perkembangan Diri</h3>
+        <p>Produktivitas yang konsisten menciptakan perkembangan diri yang nyata dan berkelanjutan.</p>
+        <div class="value-quote">"Produktivitas yang konsisten menghasilkan perkembangan diri yang berkelanjutan."</div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- FEATURES -->
-<section id="features" class="py-5">
-<div class="container">
-
-<h2 class="section-title text-center">
-Fitur Unggulan
-</h2>
-
-<div class="row g-4">
-
-<div class="col-md-4" data-aos="zoom-in">
-<div class="card p-4 text-center h-100">
-<i class="fas fa-list-check feature-icon"></i>
-<h5>Smart To-Do List</h5>
-<p>Kelola tugas dengan prioritas cerdas.</p>
-</div>
-</div>
-
-<div class="col-md-4" data-aos="zoom-in">
-<div class="card p-4 text-center h-100">
-<i class="fas fa-lock feature-icon"></i>
-<h5>Focus Lock</h5>
-<p>Blokir distraksi saat bekerja.</p>
-</div>
-</div>
-
-<div class="col-md-4" data-aos="zoom-in">
-<div class="card p-4 text-center h-100">
-<i class="fas fa-stopwatch feature-icon"></i>
-<h5>Pomodoro Timer</h5>
-<p>Belajar dan bekerja lebih fokus.</p>
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card p-4 text-center h-100">
-<i class="fas fa-wallet feature-icon"></i>
-<h5>Leisure Wallet</h5>
-<p>Dapatkan waktu hiburan sebagai reward.</p>
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card p-4 text-center h-100">
-<i class="fas fa-chart-line feature-icon"></i>
-<h5>Analytics</h5>
-<p>Pantau perkembangan produktivitas.</p>
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card p-4 text-center h-100">
-<i class="fas fa-trophy feature-icon"></i>
-<h5>Achievement System</h5>
-<p>Dapatkan badge dan pencapaian.</p>
-</div>
-</div>
-
-</div>
-
-</div>
+<!-- ======================== PROBLEM & SOLUTION ======================== -->
+<section id="problem">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <div class="section-badge"><i class="fas fa-lightbulb"></i> Masalah &amp; Solusi</div>
+      <h2 class="section-title">Kenali <span>Masalahnya,</span> Temukan Solusinya</h2>
+      <p class="section-desc">Banyak orang tahu apa yang harus dilakukan, tapi tetap menundanya. TimeBalance hadir untuk mengubah pola itu.</p>
+    </div>
+    <div class="ps-grid" style="margin-top:48px">
+      <div class="ps-box ps-problem" data-aos="fade-right">
+        <h3><span style="font-size:1.4rem">😩</span> Masalah Umum</h3>
+        <div class="ps-list">
+          <div class="ps-item"><div class="dot dot-red"></div>Sering prokrastinasi dan menunda pekerjaan</div>
+          <div class="ps-item"><div class="dot dot-red"></div>Sulit fokus di era penuh distraksi digital</div>
+          <div class="ps-item"><div class="dot dot-red"></div>Tidak bisa mengatur waktu kerja dan hiburan</div>
+          <div class="ps-item"><div class="dot dot-red"></div>Burnout karena bekerja tanpa henti</div>
+          <div class="ps-item"><div class="dot dot-red"></div>Work-Life Balance yang buruk dan tidak sehat</div>
+        </div>
+      </div>
+      <div class="ps-box ps-solution" data-aos="fade-left">
+        <h3><span style="font-size:1.4rem">✅</span> Solusi TimeBalance</h3>
+        <div class="ps-list">
+          <div class="ps-item"><div class="dot dot-green"></div><strong>Smart To-Do List</strong> — Prioritaskan tugas otomatis</div>
+          <div class="ps-item"><div class="dot dot-green"></div><strong>Focus Lock</strong> — Kunci aplikasi pengganggu saat fokus</div>
+          <div class="ps-item"><div class="dot dot-green"></div><strong>Pomodoro Timer</strong> — Sesi fokus 25 menit terstruktur</div>
+          <div class="ps-item"><div class="dot dot-green"></div><strong>Leisure Time Wallet</strong> — Reward waktu santai terukur</div>
+          <div class="ps-item"><div class="dot dot-green"></div><strong>Productivity Analytics</strong> — Pantau progres harian</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section id="how" class="py-5 bg-light">
-<div class="container">
-
-<h2 class="section-title text-center">
-Cara Kerja
-</h2>
-
-<div class="row text-center">
-
-<div class="col-md-4" data-aos="fade-up">
-
-<h1>1</h1>
-<h5>Buat Tugas</h5>
-
-</div>
-
-<div class="col-md-4" data-aos="fade-up">
-
-<h1>2</h1>
-<h5>Selesaikan Fokus Kerja</h5>
-
-</div>
-
-<div class="col-md-4" data-aos="fade-up">
-
-<h1>3</h1>
-<h5>Dapatkan Reward Time</h5>
-
-</div>
-
-</div>
-
-</div>
+<!-- ======================== FEATURES ======================== -->
+<section id="features">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <div class="section-badge"><i class="fas fa-cube"></i> Fitur Unggulan</div>
+      <h2 class="section-title">Semua yang Anda Butuhkan untuk <span>Produktif</span></h2>
+      <p class="section-desc">Fitur-fitur canggih yang dirancang khusus untuk membantu Anda fokus, menyelesaikan tugas, dan menikmati hiburan tanpa rasa bersalah.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-icon-wrap"><i class="fas fa-list-check"></i></div>
+        <h3>Smart To-Do List</h3>
+        <p>Daftar tugas cerdas berdasarkan prioritas dan tenggat waktu. Atur, urutkan, dan selesaikan tugas dengan lebih efisien.</p>
+        <div class="feature-tag"><i class="fas fa-check"></i> Gratis</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="80">
+        <div class="feature-icon-wrap"><i class="fas fa-lock"></i></div>
+        <h3>Focus Lock</h3>
+        <p>Kunci aplikasi yang mengganggu seperti Instagram, TikTok, dan game saat sesi fokus aktif. Tidak bisa di-bypass.</p>
+        <div class="feature-tag" style="background:rgba(212,169,55,.12);color:var(--gold)"><i class="fas fa-crown"></i> Premium</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="feature-icon-wrap"><i class="fas fa-hourglass-half"></i></div>
+        <h3>Pomodoro Timer</h3>
+        <p>Teknik Pomodoro 25 menit fokus + 5 menit istirahat yang terbukti meningkatkan produktivitas dan mengurangi kelelahan mental.</p>
+        <div class="feature-tag"><i class="fas fa-check"></i> Gratis</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-icon-wrap"><i class="fas fa-wallet"></i></div>
+        <h3>Leisure Time Wallet</h3>
+        <p>Dompet waktu hiburan yang terisi otomatis setiap kali Anda menyelesaikan tugas. Nikmati hiburan tanpa rasa bersalah.</p>
+        <div class="feature-tag"><i class="fas fa-check"></i> Gratis</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="80">
+        <div class="feature-icon-wrap"><i class="fas fa-chart-line"></i></div>
+        <h3>Productivity Analytics</h3>
+        <p>Grafik dan statistik produktivitas harian, mingguan, dan bulanan. Identifikasi pola dan optimalkan jadwal Anda.</p>
+        <div class="feature-tag" style="background:rgba(212,169,55,.12);color:var(--gold)"><i class="fas fa-crown"></i> Premium</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="feature-icon-wrap"><i class="fas fa-trophy"></i></div>
+        <h3>Achievement System</h3>
+        <p>Kumpulkan badge, naik level, dan dapatkan penghargaan virtual setiap kali mencapai target produktivitas Anda.</p>
+        <div class="feature-tag" style="background:rgba(212,169,55,.12);color:var(--gold)"><i class="fas fa-crown"></i> Premium</div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- PRICING -->
-<section id="pricing" class="py-5">
-<div class="container">
-
-<h2 class="section-title text-center">
-Pricing Plan
-</h2>
-
-<div class="row justify-content-center">
-
-<div class="col-md-4">
-
-<div class="card pricing-card p-5 text-center">
-
-<h3>Free</h3>
-<h1>Rp0</h1>
-
-<ul class="list-unstyled">
-
-<li>To-Do List</li>
-<li>Pomodoro</li>
-<li>Analytics Dasar</li>
-
-</ul>
-
-<button class="btn btn-primary">
-Mulai Gratis
-</button>
-
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="card pricing-card p-5 text-center border-primary">
-
-<h3>Premium</h3>
-<h1>Rp49K</h1>
-
-<ul class="list-unstyled">
-
-<li>Focus Lock</li>
-<li>Leisure Wallet</li>
-<li>Achievement System</li>
-<li>Unlimited Analytics</li>
-
-</ul>
-
-<button class="btn btn-primary">
-Coba Sekarang
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+<!-- ======================== UVP ======================== -->
+<section id="uvp">
+  <div class="container">
+    <div class="uvp-inner">
+      <div data-aos="fade-right">
+        <div class="section-badge"><i class="fas fa-fire"></i> Keunggulan Unik</div>
+        <h2 class="section-title">Mengapa TimeBalance <span>Berbeda?</span></h2>
+        <p class="section-desc" style="margin-bottom:36px">Bukan sekadar to-do list biasa. TimeBalance menggunakan mekanisme unik yang membuktikan: kerja dulu, santai belakangan itu menyenangkan.</p>
+        <div class="uvp-cards">
+          <div class="uvp-card" data-aos="fade-up" data-aos-delay="0">
+            <div class="uvp-num">1</div>
+            <div class="uvp-content">
+              <h4>Time Quota System</h4>
+              <p>Waktu santai hanya dapat digunakan setelah tugas selesai. Semakin banyak tugas, semakin besar reward Anda.</p>
+            </div>
+          </div>
+          <div class="uvp-card" data-aos="fade-up" data-aos-delay="80">
+            <div class="uvp-num">2</div>
+            <div class="uvp-content">
+              <h4>Hard Control System</h4>
+              <p>Aplikasi hiburan dikunci secara ketat saat mode fokus aktif. Tidak ada jalan pintas, tidak bisa di-skip.</p>
+            </div>
+          </div>
+          <div class="uvp-card" data-aos="fade-up" data-aos-delay="160">
+            <div class="uvp-num">3</div>
+            <div class="uvp-content">
+              <h4>Work–Reward Mechanism</h4>
+              <p>Setiap tugas yang selesai memberikan hadiah waktu santai nyata. Contoh: 2 jam belajar = 30 menit hiburan bebas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-aos="fade-left" data-aos-delay="200">
+        <div class="phone-mockup">
+          <div style="color:rgba(255,255,255,.6);font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase">TimeBalance App</div>
+          <div class="pm-badge">
+            <div class="pm-badge-icon">🎯</div>
+            <div>
+              <div class="pm-badge-text">Mode Fokus Aktif</div>
+              <div class="pm-badge-sub">Instagram, TikTok dikunci</div>
+            </div>
+          </div>
+          <div class="pm-timer">
+            <div class="pm-timer-num">24:47</div>
+            <div class="pm-timer-label">⏱ Pomodoro berjalan…</div>
+          </div>
+          <div class="pm-badge">
+            <div class="pm-badge-icon">📚</div>
+            <div>
+              <div class="pm-badge-text">Bab 4 Statistika</div>
+              <div class="pm-badge-sub">Prioritas Tinggi · Due hari ini</div>
+            </div>
+          </div>
+          <div class="pm-badge">
+            <div class="pm-badge-icon">📝</div>
+            <div>
+              <div class="pm-badge-text">Tugas Essay Bahasa</div>
+              <div class="pm-badge-sub">Prioritas Sedang · Due besok</div>
+            </div>
+          </div>
+          <div class="pm-reward">
+            <span style="font-size:1.4rem">🎁</span>
+            <div class="pm-reward-text">Selesaikan 1 tugas lagi → +20 mnt santai!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- BLOG -->
-<section id="blog" class="py-5 bg-light">
-
-<div class="container">
-
-<h2 class="section-title text-center">
-Artikel Produktivitas
-</h2>
-
-<div class="row g-4">
-
-<div class="col-md-4">
-
-<div class="card blog-card">
-
-<img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80">
-
-<div class="p-4">
-
-<h5>Aplikasi Pomodoro untuk Fokus Belajar</h5>
-
-<a href="#" class="btn btn-primary">
-Baca Artikel
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="card blog-card">
-
-<img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80">
-
-<div class="p-4">
-
-<h5>Cara Mengatur Waktu Mahasiswa</h5>
-
-<a href="#" class="btn btn-primary">
-Baca Artikel
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="card blog-card">
-
-<img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=800&q=80">
-
-<div class="p-4">
-
-<h5>Work Life Balance untuk Produktivitas</h5>
-
-<a href="#" class="btn btn-primary">
-Baca Artikel
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+<!-- ======================== HOW IT WORKS ======================== -->
+<section id="how">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <div class="section-badge"><i class="fas fa-route"></i> Cara Kerja</div>
+      <h2 class="section-title">Mulai Produktif dalam <span>5 Langkah</span></h2>
+      <p class="section-desc">Proses yang sederhana, efektif, dan menyenangkan. Setiap langkah membawa Anda lebih dekat ke keseimbangan hidup ideal.</p>
+    </div>
+    <div class="how-steps" data-aos="fade-up" data-aos-delay="100">
+      <div class="how-step">
+        <div class="how-step-icon"><i class="fas fa-plus"></i></div>
+        <div class="how-step-num">1</div>
+        <h4>Buat Tugas</h4>
+        <p>Tambahkan tugas dan atur prioritas serta tenggat waktu</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-icon"><i class="fas fa-hourglass-half"></i></div>
+        <div class="how-step-num">2</div>
+        <h4>Fokus Bekerja</h4>
+        <p>Aktifkan Pomodoro Timer dan Focus Lock — semua distraksi dikunci</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="how-step-num">3</div>
+        <h4>Selesaikan Tugas</h4>
+        <p>Tandai tugas selesai dan rasakan kepuasannya</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-icon"><i class="fas fa-gift"></i></div>
+        <div class="how-step-num">4</div>
+        <h4>Dapat Reward</h4>
+        <p>Dompet waktu santai terisi otomatis sebagai hadiah</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-icon"><i class="fas fa-smile"></i></div>
+        <div class="how-step-num">5</div>
+        <h4>Nikmati Hiburan</h4>
+        <p>Buka YouTube, TikTok, atau game tanpa rasa bersalah!</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px">
+      <a href="#pricing" class="btn btn-primary"><i class="fas fa-play-circle"></i> Mulai Sekarang — Gratis!</a>
+    </div>
+  </div>
 </section>
 
-<!-- FAQ -->
-<section id="faq" class="py-5">
-<div class="container">
-
-<h2 class="section-title text-center">
-FAQ
-</h2>
-
-<div class="accordion">
-
-<div class="accordion-item">
-
-<h2 class="accordion-header">
-<button class="accordion-button"
-data-bs-toggle="collapse"
-data-bs-target="#f1">
-
-Apa itu TimeBalance?
-
-</button>
-</h2>
-
-<div id="f1"
-class="accordion-collapse collapse show">
-
-<div class="accordion-body">
-Aplikasi manajemen waktu berbasis Work-Reward Mechanism.
-</div>
-
-</div>
-
-</div>
-
-<div class="accordion-item">
-
-<h2 class="accordion-header">
-<button class="accordion-button collapsed"
-data-bs-toggle="collapse"
-data-bs-target="#f2">
-
-Apakah gratis?
-
-</button>
-</h2>
-
-<div id="f2"
-class="accordion-collapse collapse">
-
-<div class="accordion-body">
-Tersedia paket gratis dan premium.
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+<!-- ======================== TESTIMONIALS ======================== -->
+<section id="testimonials" style="background:var(--card-bg)">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <div class="section-badge"><i class="fas fa-heart"></i> Testimoni</div>
+      <h2 class="section-title">Apa Kata <span>Pengguna Kami?</span></h2>
+      <p class="section-desc">Ribuan pengguna telah merasakan manfaat nyata TimeBalance dalam kehidupan sehari-hari mereka.</p>
+    </div>
+    <div class="swiper swiper-container" style="margin-top:48px" data-aos="fade-up" data-aos-delay="100">
+      <div class="swiper-wrapper">
+        <!-- 1 -->
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="test-quote">"Sejak pakai TimeBalance, nilai akademik saya meningkat drastis. Saya lebih disiplin belajar, tidak lagi menunda tugas sampai malam. Yang terbaik? Waktu nonton Netflix saya tetap ada tapi sekarang terasa lebih nikmat karena memang sudah earned!"</div>
+            <div class="test-footer">
+              <div class="test-avatar" style="background:var(--hero-gradient)">AR</div>
+              <div>
+                <div class="test-name">Aditya Rahmat</div>
+                <div class="test-role">Mahasiswa Teknik, Universitas Diponegoro</div>
+                <div class="test-stars">★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 2 -->
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="test-quote">"Sebagai freelancer yang kerja dari rumah, dulu saya susah banget memisahkan waktu kerja dan istirahat. TimeBalance benar-benar mengubah hidup saya — produktivitas naik 40% dan saya tidak burnout lagi. Klien pun makin puas!"</div>
+            <div class="test-footer">
+              <div class="test-avatar" style="background:linear-gradient(135deg,#D4A937,#E8C76A);color:#1E2A24">SR</div>
+              <div>
+                <div class="test-name">Sari Rahayu</div>
+                <div class="test-role">Freelance Graphic Designer, Jakarta</div>
+                <div class="test-stars">★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 3 -->
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="test-quote">"Sebagai karyawan dengan deadline yang padat, saya sering burnout. TimeBalance membantu saya lebih fokus di jam kerja dan benar-benar istirahat di luar jam kerja. Tidur lebih nyenyak, kepala lebih jernih, dan presentasi saya makin bagus!"</div>
+            <div class="test-footer">
+              <div class="test-avatar" style="background:linear-gradient(135deg,#5F8D6B,#7DA36B)">BP</div>
+              <div>
+                <div class="test-name">Budi Prakoso</div>
+                <div class="test-role">Marketing Manager, PT Maju Bersama</div>
+                <div class="test-stars">★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 4 -->
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="test-quote">"Sistem reward-nya ini yang bikin saya ketagihan produktif! Dulu main game itu penuh rasa bersalah, sekarang malah jadi motivasi buat cepat-cepat selesaikan kerjaan. Work from home jadi jauh lebih menyenangkan dan terstruktur."</div>
+            <div class="test-footer">
+              <div class="test-avatar" style="background:linear-gradient(135deg,#2E5E4E,#D4A937)">DW</div>
+              <div>
+                <div class="test-name">Dewi Wulandari</div>
+                <div class="test-role">Remote Worker, Software Company</div>
+                <div class="test-stars">★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 5 -->
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="test-quote">"Sebagai pelajar SMA yang suka game, dulu belajar itu terasa membosankan banget. Setelah pakai TimeBalance, belajar jadi seperti game — ada reward-nya! Sekarang malah saya yang ingin belajar duluan biar bisa main lebih lama hehehe!"</div>
+            <div class="test-footer">
+              <div class="test-avatar" style="background:linear-gradient(135deg,#7DA36B,#D4A937);color:#1E2A24">RF</div>
+              <div>
+                <div class="test-name">Rizky Fadhillah</div>
+                <div class="test-role">Pelajar SMA Negeri 1 Surabaya</div>
+                <div class="test-stars">★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
 </section>
 
-<!-- NEWSLETTER -->
-<section class="py-5 bg-primary text-white">
-
-<div class="container text-center">
-
-<h2>Dapatkan Tips Produktivitas</h2>
-
-<div class="row justify-content-center">
-
-<div class="col-lg-6">
-
-<div class="input-group mt-4">
-
-<input class="form-control"
-placeholder="Masukkan Email">
-
-<button class="btn btn-success">
-Subscribe
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+<!-- ======================== PRICING ======================== -->
+<section id="pricing">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <div class="section-badge"><i class="fas fa-tag"></i> Harga</div>
+      <h2 class="section-title">Pilih Paket yang <span>Tepat untuk Anda</span></h2>
+      <p class="section-desc">Mulai gratis selamanya, atau upgrade ke Premium untuk pengalaman produktivitas tanpa batas.</p>
+    </div>
+    <div class="pricing-grid" data-aos="fade-up" data-aos-delay="100">
+      <!-- FREE -->
+      <div class="pricing-card">
+        <div class="pricing-plan">Free</div>
+        <div class="pricing-price">Rp 0</div>
+        <div class="pricing-period">Selamanya, tanpa kartu kredit</div>
+        <div class="pricing-divider"></div>
+        <div class="pricing-features">
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Reminder &amp; Notifikasi</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Jadwal Harian</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Checklist Sederhana</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Basic Pomodoro Timer</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Smart To-Do List</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Focus Lock Dasar</div>
+          <div class="pricing-feat" style="opacity:.4"><i class="fas fa-times-circle" style="color:#ccc"></i> Iklan ringan tampil</div>
+        </div>
+        <button class="btn-pricing btn-pricing-free">Mulai Gratis</button>
+      </div>
+      <!-- POPULAR -->
+      <div class="pricing-card popular">
+        <div class="pricing-badge">🔥 Paling Populer</div>
+        <div class="pricing-plan">Premium Bulanan</div>
+        <div class="pricing-price">Rp 19.000</div>
+        <div class="pricing-period">per bulan · batalkan kapan saja</div>
+        <div class="pricing-divider"></div>
+        <div class="pricing-features">
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Advanced App Lock</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Dynamic Time Quota</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Strict Mode (No Skip)</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Productivity Insight AI</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Achievement &amp; Rewards</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Custom Rule System</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Bebas Iklan Sepenuhnya</div>
+        </div>
+        <button class="btn-pricing btn-pricing-premium">Upgrade Premium</button>
+      </div>
+      <!-- ANNUAL -->
+      <div class="pricing-card">
+        <div class="pricing-badge" style="background:rgba(46,94,78,.1);color:var(--primary)">💰 Hemat 21%</div>
+        <div class="pricing-plan">Premium Tahunan</div>
+        <div class="pricing-price">Rp 179.000</div>
+        <div class="pricing-period">per tahun · ~Rp 14.900/bulan</div>
+        <div class="pricing-divider"></div>
+        <div class="pricing-features">
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Semua fitur Premium</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Early Access fitur baru</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Premium Badge eksklusif</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Prioritas Customer Support</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Export Laporan PDF</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Backup Data Cloud</div>
+          <div class="pricing-feat"><i class="fas fa-check-circle"></i> Bebas Iklan Sepenuhnya</div>
+        </div>
+        <button class="btn-pricing btn-pricing-free">Pilih Paket Tahunan</button>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="py-5">
-
-<div class="container">
-
-<h2 class="section-title text-center">
-Hubungi Kami
-</h2>
-
-<div class="row justify-content-center">
-
-<div class="col-lg-7">
-
-<form>
-
-<input class="form-control mb-3"
-placeholder="Nama">
-
-<input class="form-control mb-3"
-placeholder="Email">
-
-<textarea class="form-control mb-3"
-rows="5"
-placeholder="Pesan"></textarea>
-
-<button class="btn btn-primary">
-Kirim Pesan
-</button>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
-
+<!-- ======================== REVENUE STREAMS ======================== -->
+<section id="revenue" style="background:var(--card-bg)">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <div class="section-badge"><i class="fas fa-chart-pie"></i> Model Bisnis</div>
+      <h2 class="section-title">Model <span>Revenue Kami</span></h2>
+      <p class="section-desc">Berkelanjutan dan transparan — begitulah cara TimeBalance tumbuh sambil tetap memberikan nilai terbaik.</p>
+    </div>
+    <div class="revenue-grid">
+      <div class="revenue-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="revenue-card-icon icon-green"><i class="fas fa-gift"></i></div>
+        <h3 style="font-weight:700;margin-bottom:8px">Freemium Model</h3>
+        <p style="font-size:.85rem;color:var(--text-muted);line-height:1.6">Versi gratis selamanya dengan fitur dasar yang sudah powerful. Upgrade Premium saat siap untuk fitur lengkap.</p>
+      </div>
+      <div class="revenue-card" data-aos="fade-up" data-aos-delay="80">
+        <div class="revenue-card-icon icon-gold"><i class="fas fa-crown"></i></div>
+        <h3 style="font-weight:700;margin-bottom:8px">Subscription Premium</h3>
+        <p style="font-size:.85rem;color:var(--text-muted);line-height:1.6">Rp 19.000/bulan atau Rp 179.000/tahun. Semua fitur premium, tanpa iklan, dengan dukungan prioritas.</p>
+      </div>
+      <div class="revenue-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="revenue-card-icon icon-sage"><i class="fas fa-ad"></i></div>
+        <h3 style="font-weight:700;margin-bottom:8px">In-App Advertising</h3>
+        <p style="font-size:.85rem;color:var(--text-muted);line-height:1.6">Iklan ringan dan non-intrusif hanya di versi gratis. Pengalaman premium bebas iklan tersedia di paket berbayar.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="py-5">
+<!-- ======================== BLOG ======================== -->
+<section id="blog">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <div class="section-badge"><i class="fas fa-newspaper"></i> Blog &amp; Tips</div>
+      <h2 class="section-title">Artikel <span>Produktivitas</span> Terpilih</h2>
+      <p class="section-desc">Pelajari cara terbaik mengelola waktu, meningkatkan fokus, dan mencapai work-life balance dari para ahli.</p>
+    </div>
+    <div class="blog-grid">
+      <!-- ARTICLE 1 -->
+      <div class="blog-card" data-aos="fade-up" data-aos-delay="0" onclick="openModal('modal1')">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#2E5E4E,#5F8D6B)">🍅</div>
+        <div class="blog-body">
+          <div class="blog-tag">Teknik Fokus</div>
+          <h3>Rahasia Teknik Pomodoro: Belajar Fokus Tanpa Burnout</h3>
+          <p>Pelajari cara menggunakan teknik Pomodoro untuk meningkatkan fokus dan mencegah kelelahan mental secara efektif.</p>
+          <div class="blog-meta">
+            <span><i class="fas fa-clock"></i> 8 menit baca</span>
+            <span><i class="fas fa-calendar"></i> 10 Jun 2026</span>
+          </div>
+        </div>
+      </div>
+      <!-- ARTICLE 2 -->
+      <div class="blog-card" data-aos="fade-up" data-aos-delay="80" onclick="openModal('modal2')">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#D4A937,#E8C76A)">📅</div>
+        <div class="blog-body">
+          <div class="blog-tag">Manajemen Waktu</div>
+          <h3>Cara Mengatur Waktu Mahasiswa agar Produktif Setiap Hari</h3>
+          <p>Strategi manajemen waktu yang terbukti efektif untuk mahasiswa yang ingin sukses akademik tanpa mengorbankan kehidupan sosial.</p>
+          <div class="blog-meta">
+            <span><i class="fas fa-clock"></i> 6 menit baca</span>
+            <span><i class="fas fa-calendar"></i> 8 Jun 2026</span>
+          </div>
+        </div>
+      </div>
+      <!-- ARTICLE 3 -->
+      <div class="blog-card" data-aos="fade-up" data-aos-delay="160" onclick="openModal('modal3')">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#7DA36B,#2E5E4E)">⚖️</div>
+        <div class="blog-body">
+          <div class="blog-tag">Work-Life Balance</div>
+          <h3>Work-Life Balance: Kunci Produktivitas Tanpa Kehilangan Waktu Hiburan</h3>
+          <p>Panduan lengkap mencapai keseimbangan sempurna antara pekerjaan dan kehidupan pribadi yang berkelanjutan.</p>
+          <div class="blog-meta">
+            <span><i class="fas fa-clock"></i> 10 menit baca</span>
+            <span><i class="fas fa-calendar"></i> 5 Jun 2026</span>
+          </div>
+        </div>
+      </div>
+      <!-- ARTICLE 4 -->
+      <div class="blog-card" data-aos="fade-up" data-aos-delay="0" onclick="openModal('modal4')">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#5F8D6B,#D4A937)">🧠</div>
+        <div class="blog-body">
+          <div class="blog-tag">Fokus &amp; Konsentrasi</div>
+          <h3>5 Cara Meningkatkan Fokus Belajar di Era Digital</h3>
+          <p>Strategi ilmiah untuk melawan distraksi digital dan membangun kemampuan fokus yang kuat di era smartphone.</p>
+          <div class="blog-meta">
+            <span><i class="fas fa-clock"></i> 7 menit baca</span>
+            <span><i class="fas fa-calendar"></i> 2 Jun 2026</span>
+          </div>
+        </div>
+      </div>
+      <!-- ARTICLE 5 -->
+      <div class="blog-card" data-aos="fade-up" data-aos-delay="80" onclick="openModal('modal5')">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#D4A937,#2E5E4E)">🎁</div>
+        <div class="blog-body">
+          <div class="blog-tag">Anti-Prokrastinasi</div>
+          <h3>Mengatasi Kebiasaan Menunda Pekerjaan dengan Sistem Reward</h3>
+          <p>Psikologi di balik prokrastinasi dan cara menggunakan sistem reward untuk mengubah kebiasaan menunda secara permanen.</p>
+          <div class="blog-meta">
+            <span><i class="fas fa-clock"></i> 9 menit baca</span>
+            <span><i class="fas fa-calendar"></i> 28 Mei 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px">
+      <a href="#" class="btn btn-green"><i class="fas fa-book-open"></i> Lihat Semua Artikel</a>
+    </div>
+  </div>
+</section>
 
-<div class="container text-center">
-
-<h3>TimeBalance</h3>
-
-<p>
-Produktif Tanpa Burnout.
-</p>
-
-<div class="social">
-
-<a href="#">
-<i class="fab fa-facebook"></i>
-</a>
-
-<a href="#">
-<i class="fab fa-instagram"></i>
-</a>
-
-<a href="#">
-<i class="fab fa-x-twitter"></i>
-</a>
-
-<a href="#">
-<i class="fab fa-linkedin"></i>
-</a>
-
+<!-- BLOG MODALS -->
+<div class="modal-overlay" id="modal1" onclick="closeModalOutside(event,'modal1')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal1')"><i class="fas fa-times"></i></button>
+    <div class="modal-tag">Teknik Fokus</div>
+    <h2 class="modal-title">Rahasia Teknik Pomodoro: Belajar Fokus Tanpa Burnout</h2>
+    <div class="modal-meta">
+      <span><i class="fas fa-clock"></i> 8 menit baca</span>
+      <span><i class="fas fa-calendar"></i> 10 Juni 2026</span>
+      <span><i class="fas fa-user"></i> Tim TimeBalance</span>
+    </div>
+    <div class="modal-content">
+      <p>Pernahkah Anda duduk di depan buku selama berjam-jam tapi merasa tidak ada yang masuk ke kepala? Atau sebaliknya, merasa lelah padahal baru belajar sebentar? Teknik Pomodoro mungkin adalah jawaban yang Anda cari.</p>
+      <h4>Apa Itu Teknik Pomodoro?</h4>
+      <p>Dikembangkan oleh Francesco Cirillo pada akhir 1980-an, Teknik Pomodoro adalah metode manajemen waktu yang menggunakan timer untuk memecah pekerjaan menjadi interval—biasanya 25 menit—yang dipisahkan oleh jeda pendek. Setiap interval disebut "pomodoro," berasal dari kata Italia untuk tomat, mengacu pada timer dapur berbentuk tomat yang digunakan Cirillo semasa kuliah.</p>
+      <h4>Mengapa 25 Menit?</h4>
+      <p>Penelitian ilmu saraf menunjukkan bahwa otak manusia beroperasi dalam siklus ultradian sekitar 90 menit, dengan puncak konsentrasi terjadi dalam blok 25–30 menit. Setelah itu, kemampuan fokus menurun secara signifikan. Dengan beristirahat setiap 25 menit, Anda memanfaatkan siklus alami otak dan mencegah kelelahan kognitif.</p>
+      <h4>Cara Menerapkan Teknik Pomodoro</h4>
+      <ul>
+        <li>Pilih satu tugas yang ingin diselesaikan</li>
+        <li>Setel timer 25 menit dan fokus penuh pada tugas</li>
+        <li>Ketika timer berbunyi, tandai satu pomodoro selesai</li>
+        <li>Ambil jeda 5 menit — berdiri, minum air, atau peregangan</li>
+        <li>Setelah 4 pomodoro, ambil jeda panjang 15–30 menit</li>
+      </ul>
+      <h4>Manfaat yang Terbukti Secara Ilmiah</h4>
+      <p>Studi dari Universitas Illinois menunjukkan bahwa istirahat singkat secara dramatis meningkatkan kemampuan seseorang untuk fokus pada tugas dalam jangka waktu yang lebih lama. Peserta yang mengambil dua istirahat singkat selama 50 menit tugas tetap memiliki kinerja yang konsisten, sementara mereka yang tidak beristirahat mengalami penurunan kinerja yang signifikan.</p>
+      <h4>TimeBalance dan Pomodoro</h4>
+      <p>TimeBalance mengintegrasikan teknik Pomodoro dengan sistem Work–Reward Mechanism. Setiap sesi Pomodoro yang berhasil diselesaikan tidak hanya meningkatkan fokus Anda, tetapi juga mengisi dompet waktu santai Anda secara otomatis. Ini menciptakan loop motivasi yang kuat: fokus → selesai → reward → lebih termotivasi untuk fokus lagi.</p>
+    </div>
+  </div>
 </div>
 
-<p class="mt-4">
-© 2026 TimeBalance. All Rights Reserved.
-</p>
-
+<div class="modal-overlay" id="modal2" onclick="closeModalOutside(event,'modal2')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal2')"><i class="fas fa-times"></i></button>
+    <div class="modal-tag">Manajemen Waktu</div>
+    <h2 class="modal-title">Cara Mengatur Waktu Mahasiswa agar Produktif Setiap Hari</h2>
+    <div class="modal-meta">
+      <span><i class="fas fa-clock"></i> 6 menit baca</span>
+      <span><i class="fas fa-calendar"></i> 8 Juni 2026</span>
+    </div>
+    <div class="modal-content">
+      <p>Kehidupan mahasiswa penuh dengan tuntutan yang saling bersaing: kuliah, tugas, organisasi, kehidupan sosial, dan tentu saja waktu untuk diri sendiri. Tanpa manajemen waktu yang baik, semuanya bisa terasa kewalahan.</p>
+      <h4>Kenapa Mahasiswa Sering Gagal Mengatur Waktu?</h4>
+      <p>Masalah utama bukan kekurangan waktu—semua orang punya 24 jam yang sama. Masalahnya adalah kurangnya struktur dan prioritas. Mahasiswa cenderung merespons tugas yang terasa mendesak daripada yang benar-benar penting, sebuah fenomena yang dikenal sebagai "tyranny of the urgent."</p>
+      <h4>Strategi Manajemen Waktu untuk Mahasiswa</h4>
+      <ul>
+        <li><strong>Gunakan Eisenhower Matrix:</strong> Bagi tugas ke dalam 4 kuadran berdasarkan urgensi dan kepentingan</li>
+        <li><strong>Time Blocking:</strong> Alokasikan blok waktu spesifik untuk setiap aktivitas di kalender</li>
+        <li><strong>Aturan 2 Menit:</strong> Jika tugas bisa selesai dalam 2 menit, lakukan sekarang</li>
+        <li><strong>Review Mingguan:</strong> Setiap Minggu malam, evaluasi minggu yang lalu dan rencanakan minggu depan</li>
+        <li><strong>Batasi Multitasking:</strong> Fokus satu tugas per sesi terbukti lebih efektif</li>
+      </ul>
+      <h4>Jadwal Ideal Mahasiswa Produktif</h4>
+      <p>Bangun pukul 06.00, olahraga ringan 20 menit, sarapan bergizi. Sesi belajar pertama 07.30–09.30 (fokus penuh). Istirahat. Kuliah atau sesi kedua hingga siang. Istirahat siang yang cukup. Sore untuk tugas kreatif atau organisasi. Malam untuk review dan persiapan esok hari. Tidur tidak lebih dari pukul 23.00.</p>
+      <h4>Peran TimeBalance untuk Mahasiswa</h4>
+      <p>TimeBalance dirancang khusus memahami ritme kehidupan mahasiswa. Dengan Smart To-Do List yang bisa diintegrasikan dengan jadwal kuliah, dan sistem reward yang memberikan waktu hiburan setelah belajar, mahasiswa bisa belajar dengan lebih disiplin tanpa merasa tertekan.</p>
+    </div>
+  </div>
 </div>
 
+<div class="modal-overlay" id="modal3" onclick="closeModalOutside(event,'modal3')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal3')"><i class="fas fa-times"></i></button>
+    <div class="modal-tag">Work-Life Balance</div>
+    <h2 class="modal-title">Work-Life Balance: Kunci Produktivitas Tanpa Kehilangan Waktu Hiburan</h2>
+    <div class="modal-meta">
+      <span><i class="fas fa-clock"></i> 10 menit baca</span>
+      <span><i class="fas fa-calendar"></i> 5 Juni 2026</span>
+    </div>
+    <div class="modal-content">
+      <p>Di era hustle culture yang memuji kerja keras tanpa henti, banyak orang kehilangan pandangan tentang apa yang benar-benar penting: keseimbangan. Produktivitas sejati bukan tentang bekerja 16 jam sehari—melainkan tentang bekerja cerdas dan beristirahat dengan niat.</p>
+      <h4>Mitos Hustle Culture</h4>
+      <p>Penelitian dari Harvard Business Review menemukan bahwa pekerja yang bekerja lebih dari 55 jam per minggu tidak lebih produktif dari mereka yang bekerja 50 jam. Kelelahan kronis justru menurunkan kualitas keputusan, kreativitas, dan kemampuan problem-solving secara signifikan.</p>
+      <h4>Mengapa Waktu Hiburan Itu Penting?</h4>
+      <p>Istirahat bukan pemborosan waktu—ini adalah investasi produktivitas. Saat beristirahat, otak memasuki mode "default mode network" yang memproses informasi, mengkonsolidasi memori, dan menghasilkan insight kreatif. Banyak penemuan besar terjadi saat seseorang sedang berjalan-jalan atau mandi, bukan saat duduk stres di meja kerja.</p>
+      <h4>Cara Mencapai Work-Life Balance yang Nyata</h4>
+      <ul>
+        <li>Tetapkan jam kerja yang jelas dan patuhi batas tersebut</li>
+        <li>Buat ritual transisi antara kerja dan istirahat</li>
+        <li>Jadwalkan aktivitas yang Anda nikmati seperti tugas penting</li>
+        <li>Pelajari cara menolak dengan sopan tapi tegas</li>
+        <li>Lakukan disconnect digital di luar jam kerja</li>
+      </ul>
+      <h4>Work–Reward Mechanism: Solusi Modern</h4>
+      <p>TimeBalance memperkenalkan pendekatan inovatif: Anda tidak perlu memilih antara produktif atau menikmati hidup. Dengan Work–Reward Mechanism, setiap unit kerja yang diselesaikan secara otomatis "membeli" waktu hiburan berkualitas. Hasilnya? Kerja lebih fokus, istirahat lebih menikmati, hidup lebih seimbang.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal4" onclick="closeModalOutside(event,'modal4')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal4')"><i class="fas fa-times"></i></button>
+    <div class="modal-tag">Fokus &amp; Konsentrasi</div>
+    <h2 class="modal-title">5 Cara Meningkatkan Fokus Belajar di Era Digital</h2>
+    <div class="modal-meta">
+      <span><i class="fas fa-clock"></i> 7 menit baca</span>
+      <span><i class="fas fa-calendar"></i> 2 Juni 2026</span>
+    </div>
+    <div class="modal-content">
+      <p>Smartphone rata-rata menginterupsi penggunanya 85 kali per hari. Setiap notifikasi tidak hanya memecah fokus selama beberapa detik—penelitian menunjukkan dibutuhkan rata-rata 23 menit untuk kembali ke tingkat fokus semula setelah terganggu.</p>
+      <h4>1. Deep Work Scheduling</h4>
+      <p>Cal Newport, penulis buku "Deep Work," menyarankan untuk menjadwalkan sesi kerja mendalam yang terlindungi dari interupsi. Pilih waktu Anda paling tajam—biasanya pagi hari—dan dedikasikan untuk tugas yang membutuhkan konsentrasi tinggi.</p>
+      <h4>2. Digital Minimalism</h4>
+      <p>Hapus notifikasi yang tidak esensial. Letakkan smartphone di ruangan lain saat belajar. Gunakan aplikasi seperti TimeBalance Focus Lock untuk memblokir aplikasi pengganggu secara paksa.</p>
+      <h4>3. Lingkungan yang Mendukung Fokus</h4>
+      <p>Otak sangat responsif terhadap sinyal lingkungan. Buat "zona fokus" yang khusus untuk belajar atau bekerja—meja bersih, pencahayaan baik, musik instrumental (atau keheningan). Konsistensi membantu otak masuk mode fokus lebih cepat.</p>
+      <h4>4. Latihan Mindfulness</h4>
+      <p>Meditasi 10 menit sehari terbukti meningkatkan kemampuan fokus dan mengurangi mind-wandering. Aplikasi seperti Headspace atau bahkan latihan pernapasan sederhana bisa menjadi titik awal yang baik.</p>
+      <h4>5. Olah Raga Teratur</h4>
+      <p>Aktivitas aerobik meningkatkan aliran darah ke korteks prefrontal—bagian otak yang bertanggung jawab untuk fokus, perencanaan, dan kontrol diri. Bahkan jalan kaki 20 menit sehari memberikan dampak nyata pada kemampuan konsentrasi.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal5" onclick="closeModalOutside(event,'modal5')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal5')"><i class="fas fa-times"></i></button>
+    <div class="modal-tag">Anti-Prokrastinasi</div>
+    <h2 class="modal-title">Mengatasi Kebiasaan Menunda Pekerjaan dengan Sistem Reward</h2>
+    <div class="modal-meta">
+      <span><i class="fas fa-clock"></i> 9 menit baca</span>
+      <span><i class="fas fa-calendar"></i> 28 Mei 2026</span>
+    </div>
+    <div class="modal-content">
+      <p>Prokrastinasi bukan masalah manajemen waktu—ini adalah masalah regulasi emosi. Orang menunda bukan karena malas, tetapi karena tugas tersebut memicu emosi negatif seperti kecemasan, kebosanan, atau rasa tidak mampu.</p>
+      <h4>Psikologi di Balik Prokrastinasi</h4>
+      <p>Otak manusia secara evolusioner dirancang untuk mencari gratifikasi instan dan menghindari ketidaknyamanan. Ketika menghadapi tugas yang menantang, amigdala—pusat emosi otak—merespons seolah ada ancaman, mendorong kita mencari aktivitas yang lebih menyenangkan.</p>
+      <h4>Mengapa Willpower Saja Tidak Cukup?</h4>
+      <p>Banyak orang mencoba melawan prokrastinasi dengan "tekad lebih kuat." Ini jarang berhasil jangka panjang karena willpower adalah sumber daya yang terbatas—menghabis diri seiring waktu. Solusi yang lebih efektif adalah mengubah sistem dan lingkungan, bukan hanya mengandalkan kekuatan mental.</p>
+      <h4>Sistem Reward: Cara Kerja Ilmiahnya</h4>
+      <p>Dopamin adalah neurotransmitter yang mengatur motivasi dan reward. Ketika kita mengantisipasi reward, otak melepaskan dopamin yang mendorong tindakan. Sistem reward yang terstruktur memanfaatkan mekanisme ini: dengan menjanjikan reward konkret setelah tugas selesai, Anda menciptakan "carrot" yang otak Anda secara neurobiologis termotivasi untuk mengejarnya.</p>
+      <h4>Cara Membuat Sistem Reward yang Efektif</h4>
+      <ul>
+        <li>Reward harus segera (bukan minggu depan)</li>
+        <li>Reward harus proporsional dengan usaha yang dikeluarkan</li>
+        <li>Reward harus sesuatu yang benar-benar Anda nikmati</li>
+        <li>Jangan berikan reward sebelum tugas selesai (no cheating!)</li>
+        <li>Variasikan reward untuk mencegah kebosanan</li>
+      </ul>
+      <h4>TimeBalance sebagai Sistem Reward Otomatis</h4>
+      <p>TimeBalance mengautomasi seluruh proses ini. Anda tidak perlu merancang sistem reward sendiri—aplikasi melakukannya untuk Anda. Setiap tugas selesai langsung memberikan waktu hiburan terukur. Hasilnya adalah loop motivasi yang kuat dan berkelanjutan yang mengubah prokrastinasi menjadi produktivitas secara bertahap.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== FAQ ======================== -->
+<section id="faq">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <div class="section-badge"><i class="fas fa-question-circle"></i> FAQ</div>
+      <h2 class="section-title">Pertanyaan yang <span>Sering Ditanyakan</span></h2>
+      <p class="section-desc">Ada pertanyaan? Kami punya jawabannya.</p>
+    </div>
+    <div class="faq-list" data-aos="fade-up" data-aos-delay="100">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Apa itu TimeBalance dan bagaimana cara kerjanya? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a">TimeBalance adalah aplikasi produktivitas yang menggunakan Work–Reward Mechanism: Anda menyelesaikan tugas terlebih dahulu, kemudian mendapatkan waktu hiburan sebagai reward. Sistem ini memastikan pekerjaan selesai sebelum waktu santai digunakan, menciptakan kebiasaan disiplin yang berkelanjutan.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Apakah TimeBalance benar-benar gratis? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a">Ya! Versi gratis TimeBalance tersedia selamanya tanpa kartu kredit. Anda mendapatkan fitur dasar yang sudah cukup untuk memulai perjalanan produktivitas Anda. Upgrade ke Premium tersedia jika Anda ingin fitur yang lebih lengkap seperti Advanced App Lock, Strict Mode, dan Analytics.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Bagaimana cara Focus Lock bekerja di versi Premium? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a">Focus Lock bekerja dengan memblokir aplikasi tertentu (Instagram, TikTok, YouTube, Game, dll.) di level sistem selama sesi fokus aktif. Tidak ada cara untuk membuka aplikasi tersebut selama timer berjalan—bahkan merestart aplikasi pun tidak akan berhasil. Di versi Premium, Anda bisa mengatur daftar aplikasi yang diblokir sendiri menggunakan Custom Rule System.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Berapa waktu hiburan yang saya dapatkan per tugas? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a">Waktu hiburan dihitung berdasarkan durasi dan tingkat kesulitan tugas yang diselesaikan. Secara default, setiap 30 menit fokus memberikan 10 menit waktu santai. Di versi Premium dengan Dynamic Time Quota, rasio ini menyesuaikan secara otomatis berdasarkan produktivitas historis Anda. Anda juga bisa mengatur rasio sendiri menggunakan Custom Rule System.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Apakah TimeBalance tersedia di iOS dan Android? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a">TimeBalance tersedia di Android dan sedang dalam pengembangan untuk iOS. Versi web juga tersedia untuk diakses dari browser desktop maupun mobile. Daftar waitlist untuk iOS melalui halaman download kami dan Anda akan mendapatkan notifikasi saat tersedia.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Bisakah saya membatalkan langganan Premium kapan saja? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a">Tentu! Anda bisa membatalkan langganan kapan saja tanpa biaya tambahan. Akses Premium akan tetap aktif hingga akhir periode langganan yang sudah dibayar. Setelah itu, akun Anda otomatis beralih ke versi gratis dengan semua data Anda tetap tersimpan.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Apakah data produktivitas saya aman? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a">Privasi dan keamanan data Anda adalah prioritas utama kami. Semua data dienkripsi menggunakan standar AES-256. Kami tidak menjual data pengguna kepada pihak ketiga. Pengguna Premium mendapatkan backup cloud otomatis dan bisa mengekspor semua data dalam format CSV atau PDF kapan saja.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Apakah ada fitur untuk tim atau grup belajar? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a">Fitur kolaborasi tim sedang dalam pengembangan dan akan dirilis dalam waktu dekat. Saat ini, Anda bisa berbagi streak dan pencapaian dengan teman melalui fitur Share Achievement. Daftarkan email Anda ke newsletter kami untuk mendapatkan update terbaru tentang fitur tim.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== NEWSLETTER ======================== -->
+<section id="newsletter">
+  <div class="container">
+    <div class="newsletter-inner" data-aos="fade-up">
+      <div class="section-badge" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.2)"><i class="fas fa-envelope"></i> Newsletter</div>
+      <h2>Dapatkan Tips Produktivitas Setiap Minggu</h2>
+      <p>Bergabung dengan 10.000+ pembaca yang mendapatkan tips produktivitas, manajemen waktu, dan work-life balance langsung ke inbox mereka.</p>
+      <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+        <input type="email" id="nl-email" placeholder="Masukkan alamat email Anda" required/>
+        <button type="submit"><i class="fas fa-paper-plane"></i> Daftar</button>
+      </form>
+      <div id="nl-msg"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== CONTACT ======================== -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div data-aos="fade-right">
+        <div class="section-badge"><i class="fas fa-headset"></i> Kontak</div>
+        <h2 class="section-title">Ada Pertanyaan? <span>Hubungi Kami</span></h2>
+        <p class="section-desc">Tim kami siap membantu Anda 24/7. Jangan ragu untuk menghubungi kami melalui channel manapun.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="contact-detail">
+              <p>Alamat</p>
+              <strong>Indonesia 🇮🇩</strong>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div class="contact-detail">
+              <p>Email</p>
+              <strong>hello@timebalance.app</strong>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+            <div class="contact-detail">
+              <p>WhatsApp</p>
+              <strong>+62 882-0063-53810</strong>
+            </div>
+          </div>
+        </div>
+        <div class="social-row">
+          <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div data-aos="fade-left" data-aos-delay="100">
+        <div class="contact-form-card">
+          <h3 style="font-weight:700;margin-bottom:24px">Kirim Pesan</h3>
+          <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input type="text" placeholder="Nama Anda"/>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="email@anda.com"/>
+          </div>
+          <div class="form-group">
+            <label>Pesan</label>
+            <textarea placeholder="Tulis pesan Anda di sini…"></textarea>
+          </div>
+          <button class="btn btn-green" style="width:100%;justify-content:center" onclick="alert('Terima kasih! Pesan Anda telah terkirim. Kami akan membalas dalam 24 jam. 🌿')"><i class="fas fa-paper-plane"></i> Kirim Pesan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== FOOTER ======================== -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="nav-logo"><span class="time">Time</span><span class="balance">Balance</span></div>
+        <p>Aplikasi manajemen waktu dan produktivitas dengan Work–Reward Mechanism. Nikmati hidup tanpa mengorbankan masa depan.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">Tentang</a></li>
+          <li><a href="#features">Fitur</a></li>
+          <li><a href="#how">Cara Kerja</a></li>
+          <li><a href="#pricing">Harga</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Sumber Daya</h4>
+        <ul>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Kontak</a></li>
+          <li><a href="#">Kebijakan Privasi</a></li>
+          <li><a href="#">Syarat &amp; Ketentuan</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:14px;line-height:1.6">Tips produktivitas mingguan langsung ke inbox Anda.</p>
+        <form onsubmit="handleNewsletter(event,true)" style="display:flex;gap:8px">
+          <input type="email" placeholder="Email Anda" style="flex:1;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;font-family:'Poppins',sans-serif;font-size:.8rem;outline:none"/>
+          <button type="submit" style="padding:10px 16px;border-radius:12px;border:none;background:var(--btn-gradient);color:#1E2A24;font-weight:600;cursor:pointer;font-size:.8rem;font-family:'Poppins',sans-serif">→</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 TimeBalance. All Rights Reserved. Made with 💚 in Indonesia</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privasi</a>
+        <a href="#">Ketentuan</a>
+        <a href="#">Cookie</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<!-- ======================== SCRIPTS ======================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-AOS.init();
-
-window.addEventListener("load",()=>{
-document.querySelector(".loader").style.display="none";
+/* ---- Loading ---- */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loading').classList.add('hidden');
+    AOS.init({ once: true, offset: 60, duration: 700 });
+    initCounters();
+  }, 1200);
 });
 
-document.getElementById("darkToggle")
-.addEventListener("click",()=>{
-document.body.classList.toggle("dark-mode");
+/* ---- Navbar scroll ---- */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('btt').classList.toggle('visible', window.scrollY > 400);
 });
 
-window.addEventListener("scroll",()=>{
+/* ---- Back to top ---- */
+document.getElementById('btt').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-const top=document.getElementById("backTop");
+/* ---- Dark mode ---- */
+const darkToggle = document.getElementById('dark-toggle');
+darkToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const icon = darkToggle.querySelector('i');
+  icon.className = document.body.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon';
+});
 
-if(window.scrollY>300){
-top.style.display="flex";
-}else{
-top.style.display="none";
+/* ---- Mobile menu ---- */
+function openMobileMenu() {
+  document.getElementById('mob-menu').classList.add('open');
+  document.getElementById('mob-overlay').classList.add('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mob-menu').classList.remove('open');
+  document.getElementById('mob-overlay').classList.remove('open');
 }
 
-});
+/* ---- FAQ accordion ---- */
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
 
-document.querySelectorAll('a[href^="#"]').forEach(link=>{
-link.addEventListener('click',function(e){
+/* ---- Blog modals ---- */
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+function closeModalOutside(e, id) { if (e.target.id === id) closeModal(id); }
 
-e.preventDefault();
+/* ---- Newsletter ---- */
+function handleNewsletter(e, mini = false) {
+  e.preventDefault();
+  if (mini) { alert('Terima kasih! Email Anda telah terdaftar. 🌿'); return; }
+  const email = document.getElementById('nl-email').value.trim();
+  const msg = document.getElementById('nl-msg');
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!re.test(email)) {
+    msg.textContent = '❌ Masukkan email yang valid.';
+    msg.className = 'error';
+    return;
+  }
+  msg.textContent = '✅ Terima kasih! Cek inbox Anda untuk konfirmasi.';
+  msg.className = 'success';
+  document.getElementById('nl-email').value = '';
+}
 
-document.querySelector(
-this.getAttribute('href')
-).scrollIntoView({
-behavior:'smooth'
-});
+/* ---- Animated Counters ---- */
+function initCounters() {
+  const counters = document.querySelectorAll('[data-target]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || (target >= 10000 ? '+' : '');
+        const duration = 1800;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          const display = target >= 10000 ? Math.floor(current).toLocaleString('id-ID') : Math.floor(current);
+          el.textContent = display + suffix;
+          if (current >= target) clearInterval(timer);
+        }, 16);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => observer.observe(el));
+}
 
-});
+/* ---- Swiper ---- */
+new Swiper('.swiper-container', {
+  slidesPerView: 1,
+  spaceBetween: 24,
+  loop: true,
+  autoplay: { delay: 4500, disableOnInteraction: false },
+  pagination: { el: '.swiper-pagination', clickable: true },
+  breakpoints: {
+    640: { slidesPerView: 1 },
+    900: { slidesPerView: 2 },
+    1200: { slidesPerView: 3 }
+  }
 });
 </script>
-
 </body>
 </html>
