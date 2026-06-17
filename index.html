@@ -12,6 +12,9 @@
 <meta property="og:image" content="images/logo baru.jpeg"/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://timebalance.id"/>
+
+<!-- Favicon -->
+<link rel="icon" type="image/jpeg" href="images/logo%20baru.jpeg"/>
 <!-- Preconnect -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -110,7 +113,15 @@ body.dark .navbar.scrolled{background:rgba(15,26,21,.95)}
   max-width:1280px;margin:0 auto;padding:0 24px;
   display:flex;align-items:center;gap:32px;
 }
-.nav-logo{font-size:1.4rem;font-weight:800;letter-spacing:-.5px;flex-shrink:0}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  font-size:1.4rem;font-weight:800;letter-spacing:-.5px;
+  flex-shrink:0;
+}
+.nav-logo-img{
+  height:48px;width:auto;display:block;
+}
+.nav-logo-text{display:flex;align-items:center;white-space:nowrap}
 .nav-logo .time{color:var(--primary)}
 .nav-logo .balance{color:var(--gold)}
 .navbar:not(.scrolled) .nav-logo .time{color:#fff}
@@ -768,6 +779,7 @@ footer{background:var(--text);color:rgba(255,255,255,.75);padding:64px 0 32px}
   .footer-inner{grid-template-columns:1fr 1fr}
   .nav-links{display:none}
   .hamburger{display:flex}
+  .nav-logo-img{height:44px}
 }
 @media(max-width:600px){
   section{padding:64px 0}
@@ -813,9 +825,9 @@ footer{background:var(--text);color:rgba(255,255,255,.75);padding:64px 0 32px}
 <!-- NAVBAR -->
 <header class="navbar" id="navbar">
   <div class="nav-inner">
-    <a href="#hero" class="nav-logo d-flex align-items-center">
-<img src="logobaru1.jpeg" alt="TimeBalance logo" height="42" style="margin-right:10px;" onerror="this.style.display='none';">
-  <span>
+<a href="#hero" class="nav-logo" aria-label="TimeBalance">
+  <img class="nav-logo-img" src="logobaru1.jpeg" alt="TimeBalance logo" onerror="this.style.display='none';">
+  <span class="nav-logo-text">
     <span class="time">Time</span><span class="balance">Balance</span>
   </span>
 </a>
