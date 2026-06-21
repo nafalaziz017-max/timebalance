@@ -824,6 +824,33 @@ footer{background:var(--text);color:rgba(255,255,255,.75);padding:64px 0 32px}
   .hamburger{display:flex}
   .nav-logo-img{height:44px}
 }
+
+/* Mobile tweak (<=768px) */
+@media(max-width:768px){
+  /* offset dari navbar fixed */
+  html{scroll-padding-top:86px}
+  section{scroll-margin-top:86px}
+  #hero{padding-top:140px}
+
+  /* header lebih ringkas */
+  .navbar{padding:12px 0}
+  .nav-inner{gap:16px}
+  .nav-logo-img{height:40px}
+  .nav-logo{font-size:1.2rem}
+  .btn-download{display:none}
+
+  /* layout tersusun vertikal */
+  .hero-inner{grid-template-columns:1fr;gap:28px}
+  .hero-badge{font-size:.78rem}
+  .hero-desc{font-size:.98rem;margin-bottom:22px}
+  .hero-cta{gap:10px}
+
+  /* about */
+  .about-inner{grid-template-columns:1fr;gap:24px}
+  .about-cards{grid-template-columns:1fr}
+  .about-card{padding:20px}
+}
+
 @media(max-width:600px){
   section{padding:64px 0}
   .about-cards{grid-template-columns:1fr}
