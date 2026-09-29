@@ -391,14 +391,10 @@ function confirmPayment() {
      ========================= */
 
   emailjs.send(
-
-    "service_68x3qfg",
-
-    "n56f5gr",
-
-    templateParams
-
-  )
+  "service_68x3qfg",
+  "timebalance_payment",
+  templateParams
+)
 
 
   /* =========================
