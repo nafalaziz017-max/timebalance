@@ -3,8 +3,9 @@
    EmailJS Payment Confirmation
    ========================================================= */
 
+
 /* =========================
-   PLAN DATA
+   DATA PAKET
    ========================= */
 
 const planData = {
@@ -32,25 +33,37 @@ const planData = {
 
 
 /* =========================
-   SELECT PLAN
+   PILIH PAKET
    ========================= */
 
 function selectPlan(key) {
+
   const d = planData[key];
 
   if (!d) return;
 
   document.querySelectorAll(".plan-btn").forEach(function (btn) {
+
     btn.classList.toggle(
       "active",
       btn.dataset.plan === key
     );
+
   });
 
-  const planName = document.getElementById("pay-plan-name");
-  const planPrice = document.getElementById("pay-plan-price");
-  const planPeriod = document.getElementById("pay-plan-period");
-  const paketConfirm = document.getElementById("pay-paket-confirm");
+
+  const planName =
+    document.getElementById("pay-plan-name");
+
+  const planPrice =
+    document.getElementById("pay-plan-price");
+
+  const planPeriod =
+    document.getElementById("pay-plan-period");
+
+  const paketConfirm =
+    document.getElementById("pay-paket-confirm");
+
 
   if (planName) {
     planName.textContent = d.name;
@@ -67,322 +80,37 @@ function selectPlan(key) {
   if (paketConfirm) {
     paketConfirm.value = d.confirm;
   }
-}
-
-
-/* =========================
-   READ PLAN FROM URL
-   ========================= */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-  const params = new URLSearchParams(window.location.search);
-
-  const selectedPlan =
-    params.get("plan") || "monthly";
-
-  if (planData[selectedPlan]) {
-    selectPlan(selectedPlan);
-  }
-
-});
-
-
-/* =========================
-   PAYMENT CONFIRMATION
-   ========================= */
-
-function confirmPayment() {
-
-  const nameInput =
-    document.getElementById("pay-name");
-
-  const emailInput =
-    document.getElementById("pay-email");
-
-  const noteInput =
-    document.getElementById("pay-note");
-
-  const paketInput =
-    document.getElementById("pay-paket-confirm");
-
-  const message =
-    document.getElementById("pay-msg");
-
-
-  /* =========================
-     GET FORM VALUES
-     ========================= */
-
-  const name =
-    nameInput ? nameInput.value.trim() : "";
-
-  const email =
-    emailInput ? emailInput.value.trim() : "";
-
-  const catatan =
-    noteInput ? noteInput.value.trim() : "";
-
-  const paket =
-    paketInput ? paketInput.value : "";
-
-
-  /* =========================
-     VALIDATION
-     ========================= */
-
-  if (!name) {
-
-    showPaymentMessage(
-      "error",
-      "❌ Nama lengkap wajib diisi."
-    );
-
-    if (nameInput) {
-      nameInput.focus();
-    }
-
-    return;
-  }
-
-
-  if (!email) {
-
-    showPaymentMessage(
-      "error",
-      "❌ Email aktif wajib diisi."
-    );
-
-    if (emailInput) {
-      emailInput.focus();
-    }
-
-    return;
-  }
-
-
-  /* =========================
-     EMAIL VALIDATION
-     ========================= */
-
-  const emailRegex =
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-  if (!emailRegex.test(email)) {
-
-    showPaymentMessage(
-      "error",
-      "❌ Masukkan alamat email yang valid."
-    );
-
-    if (emailInput) {
-      emailInput.focus();
-    }
-
-    return;
-  }
-
-
-  /* =========================
-     GET PRICE
-     ========================= */
-
-  let harga = "Rp 0";
-
-
-  if (paket.includes("19.000")) {
-
-    harga = "Rp 19.000";
-
-  } else if (paket.includes("179.000")) {
-
-    harga = "Rp 179.000";
-
-  }
-
-
-  /* =========================
-     CURRENT TIME
-     ========================= */
-
-  const waktu =
-    new Date().toLocaleString(
-      "id-ID",
-      {
-        dateStyle: "full",
-        timeStyle: "short"
-      }
-    );
-
-
-  /* =========================
-     EMAILJS PARAMETERS
-     ========================= */
-
-  const templateParams = {
-
-    name: name,
-
-    email: email,
-
-    paket: paket,
-
-    harga: harga,
-
-    catatan: catatan || "-",
-
-    waktu: waktu
-
-  };
-
-
-  /* =========================
-     SHOW LOADING
-     ========================= */
-
-  showPaymentMessage(
-    "loading",
-    "⏳ Sedang mengirim konfirmasi pembayaran..."
-  );
-
-
-  /* =========================
-     DISABLE BUTTON
-     ========================= */
-
-  const button =
-    document.querySelector(
-      'button[onclick="confirmPayment()"]'
-    );
-
-
-  if (button) {
-
-    button.disabled = true;
-
-    button.style.opacity = "0.7";
-
-    button.style.cursor = "not-allowed";
-
-    button.innerHTML =
-      '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
-
-  }
-
-
-  /* =========================
-     SEND EMAIL WITH EMAILJS
-     ========================= */
-
-  emailjs.send(
-
-    "service_68x3qfg",
-
-    "n56f5gr",
-
-    templateParams
-
-  )
-
-  .then(function (response) {
-
-    console.log(
-      "EmailJS berhasil:",
-      response.status,
-      response.text
-    );
-
-
-    /* =========================
-       SUCCESS MESSAGE
-       ========================= */
-
-    showPaymentMessage(
-      "success",
-      "✅ Konfirmasi pembayaran berhasil dikirim. Silakan tunggu verifikasi dari admin."
-    );
-
-
-    /* =========================
-       RESET FORM
-       ========================= */
-
-    if (nameInput) {
-      nameInput.value = "";
-    }
-
-    if (emailInput) {
-      emailInput.value = "";
-    }
-
-    if (noteInput) {
-      noteInput.value = "";
-    }
-
-
-    /* =========================
-       RESTORE BUTTON
-       ========================= */
-
-    if (button) {
-
-      button.disabled = false;
-
-      button.style.opacity = "1";
-
-      button.style.cursor = "pointer";
-
-      button.innerHTML =
-        '<i class="fas fa-paper-plane"></i> Saya Sudah Membayar — Konfirmasi';
-
-    }
-
-  })
-
-
-  .catch(function (error) {
-
-    console.error(
-      "EmailJS Error:",
-      error
-    );
-
-
-    /* =========================
-       ERROR MESSAGE
-       ========================= */
-
-    showPaymentMessage(
-      "error",
-      "❌ Konfirmasi gagal dikirim. Silakan coba lagi beberapa saat."
-    );
-
-
-    /* =========================
-       RESTORE BUTTON
-       ========================= */
-
-    if (button) {
-
-      button.disabled = false;
-
-      button.style.opacity = "1";
-
-      button.style.cursor = "pointer";
-
-      button.innerHTML =
-        '<i class="fas fa-paper-plane"></i> Saya Sudah Membayar — Konfirmasi';
-
-    }
-
-  });
 
 }
 
 
 /* =========================
-   PAYMENT MESSAGE
+   CEK PAKET DARI URL
+   ========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+    const params =
+      new URLSearchParams(window.location.search);
+
+    const selectedPlan =
+      params.get("plan") || "monthly";
+
+
+    if (planData[selectedPlan]) {
+
+      selectPlan(selectedPlan);
+
+    }
+
+  }
+);
+
+
+/* =========================
+   PESAN STATUS
    ========================= */
 
 function showPaymentMessage(type, text) {
@@ -418,15 +146,365 @@ function showPaymentMessage(type, text) {
     message.className =
       "pay-msg";
 
-    message.style.background =
-      "rgba(79, 70, 229, 0.08)";
-
-    message.style.color =
-      "var(--primary)";
-
-    message.style.border =
-      "1px solid rgba(79, 70, 229, 0.18)";
+    message.style.display =
+      "block";
 
   }
+
+}
+
+
+/* =========================
+   KONFIRMASI PEMBAYARAN
+   ========================= */
+
+function confirmPayment() {
+
+
+  /* =========================
+     AMBIL DATA FORM
+     ========================= */
+
+  const nameInput =
+    document.getElementById("pay-name");
+
+  const emailInput =
+    document.getElementById("pay-email");
+
+  const noteInput =
+    document.getElementById("pay-note");
+
+  const paketInput =
+    document.getElementById("pay-paket-confirm");
+
+  const message =
+    document.getElementById("pay-msg");
+
+
+  const name =
+    nameInput
+      ? nameInput.value.trim()
+      : "";
+
+
+  const email =
+    emailInput
+      ? emailInput.value.trim()
+      : "";
+
+
+  const catatan =
+    noteInput
+      ? noteInput.value.trim()
+      : "";
+
+
+  const paket =
+    paketInput
+      ? paketInput.value
+      : "";
+
+
+  /* =========================
+     VALIDASI NAMA
+     ========================= */
+
+  if (!name) {
+
+    showPaymentMessage(
+      "error",
+      "❌ Nama lengkap wajib diisi."
+    );
+
+    if (nameInput) {
+      nameInput.focus();
+    }
+
+    return;
+
+  }
+
+
+  /* =========================
+     VALIDASI EMAIL
+     ========================= */
+
+  if (!email) {
+
+    showPaymentMessage(
+      "error",
+      "❌ Email wajib diisi."
+    );
+
+    if (emailInput) {
+      emailInput.focus();
+    }
+
+    return;
+
+  }
+
+
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+  if (!emailRegex.test(email)) {
+
+    showPaymentMessage(
+      "error",
+      "❌ Masukkan alamat email yang valid."
+    );
+
+    if (emailInput) {
+      emailInput.focus();
+    }
+
+    return;
+
+  }
+
+
+  /* =========================
+     TENTUKAN HARGA
+     ========================= */
+
+  let harga = "Rp 0";
+
+
+  if (paket.includes("19.000")) {
+
+    harga = "Rp 19.000";
+
+  }
+
+  else if (paket.includes("179.000")) {
+
+    harga = "Rp 179.000";
+
+  }
+
+
+  /* =========================
+     WAKTU KONFIRMASI
+     ========================= */
+
+  const waktu =
+    new Date().toLocaleString(
+      "id-ID",
+      {
+        dateStyle: "full",
+        timeStyle: "short"
+      }
+    );
+
+
+  /* =========================
+     DATA UNTUK EMAILJS
+     ========================= */
+
+  const templateParams = {
+
+    name: name,
+
+    email: email,
+
+    paket: paket,
+
+    harga: harga,
+
+    catatan: catatan || "-",
+
+    waktu: waktu
+
+  };
+
+
+  /* =========================
+     TAMPILKAN LOADING
+     ========================= */
+
+  showPaymentMessage(
+    "loading",
+    "⏳ Sedang mengirim konfirmasi pembayaran..."
+  );
+
+
+  /* =========================
+     TOMBOL
+     ========================= */
+
+  const button =
+    document.querySelector(
+      'button[onclick="confirmPayment()"]'
+    );
+
+
+  if (button) {
+
+    button.disabled = true;
+
+    button.style.opacity = "0.7";
+
+    button.style.cursor = "not-allowed";
+
+    button.innerHTML =
+      '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+
+  }
+
+
+  /* =========================
+     CEK EMAILJS
+     ========================= */
+
+  if (
+    typeof emailjs === "undefined"
+  ) {
+
+    showPaymentMessage(
+      "error",
+      "❌ EmailJS belum berhasil dimuat. Periksa koneksi atau script EmailJS di payment.html."
+    );
+
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.style.opacity = "1";
+
+      button.style.cursor = "pointer";
+
+      button.innerHTML =
+        '<i class="fas fa-paper-plane"></i> Saya Sudah Membayar — Konfirmasi';
+
+    }
+
+    return;
+
+  }
+
+
+  /* =========================
+     KIRIM EMAIL
+     ========================= */
+
+  emailjs.send(
+
+    "service_68x3qfg",
+
+    "n56f5gr",
+
+    templateParams
+
+  )
+
+
+  /* =========================
+     BERHASIL
+     ========================= */
+
+  .then(function (response) {
+
+    console.log(
+      "EmailJS berhasil:",
+      response.status,
+      response.text
+    );
+
+
+    showPaymentMessage(
+      "success",
+      "✅ Konfirmasi pembayaran berhasil dikirim. Silakan tunggu verifikasi dari admin."
+    );
+
+
+    /* Reset form */
+
+    if (nameInput) {
+      nameInput.value = "";
+    }
+
+    if (emailInput) {
+      emailInput.value = "";
+    }
+
+    if (noteInput) {
+      noteInput.value = "";
+    }
+
+
+    /* Kembalikan tombol */
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.style.opacity = "1";
+
+      button.style.cursor = "pointer";
+
+      button.innerHTML =
+        '<i class="fas fa-paper-plane"></i> Saya Sudah Membayar — Konfirmasi';
+
+    }
+
+  })
+
+
+  /* =========================
+     GAGAL
+     ========================= */
+
+  .catch(function (error) {
+
+    console.error(
+      "EmailJS Error:",
+      error
+    );
+
+
+    let errorMessage =
+      "Terjadi kesalahan pada EmailJS.";
+
+
+    if (error && error.text) {
+
+      errorMessage =
+        error.text;
+
+    }
+
+    else if (error && error.message) {
+
+      errorMessage =
+        error.message;
+
+    }
+
+
+    showPaymentMessage(
+      "error",
+      "❌ Gagal: " + errorMessage
+    );
+
+
+    /* Kembalikan tombol */
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.style.opacity = "1";
+
+      button.style.cursor = "pointer";
+
+      button.innerHTML =
+        '<i class="fas fa-paper-plane"></i> Saya Sudah Membayar — Konfirmasi';
+
+    }
+
+  });
 
 }

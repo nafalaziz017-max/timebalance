@@ -304,6 +304,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 
 <script src="assets/js/main.js"></script>
+
 <script src="assets/js/navigation.js"></script>
 
 <!-- EMAILJS -->
@@ -337,47 +338,66 @@
 
     annual: {
       name: "Premium Tahunan",
-      price: "Rp 50.000",
+      price: "Rp 179.000",
       period: "per tahun",
-      confirm: "Premium Tahunan — Rp 50.000"
+      confirm: "Premium Tahunan — Rp 179.000"
     }
   };
 
   function selectPlan(key) {
+
     const d = planData[key];
 
     if (!d) return;
 
     document.querySelectorAll(".plan-btn").forEach(function (btn) {
+
       btn.classList.toggle(
         "active",
         btn.dataset.plan === key
       );
+
     });
 
     document.getElementById("pay-plan-name").textContent = d.name;
+
     document.getElementById("pay-plan-price").textContent = d.price;
+
     document.getElementById("pay-plan-period").textContent = d.period;
+
     document.getElementById("pay-paket-confirm").value = d.confirm;
+
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const p =
-      new URLSearchParams(location.search).get("plan")
-      || "monthly";
 
-    if (planData[p]) {
-      selectPlan(p);
-    }
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    if (typeof AOS !== "undefined") {
-      AOS.init({
-        duration: 700,
-        once: true,
-        offset: 80
-      });
+      const p =
+        new URLSearchParams(location.search).get("plan")
+        || "monthly";
+
+
+      if (planData[p]) {
+
+        selectPlan(p);
+
+      }
+
+
+      if (typeof AOS !== "undefined") {
+
+        AOS.init({
+          duration: 700,
+          once: true,
+          offset: 80
+        });
+
+      }
+
     }
-  });
+  );
 </script>
 
 </body>
