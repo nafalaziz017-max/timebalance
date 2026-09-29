@@ -302,31 +302,83 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
 <script src="assets/js/main.js"></script>
 <script src="assets/js/navigation.js"></script>
-<script src="assets/js/payment.js"></script>
+
+<!-- EMAILJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
-/* ---- Plan selector UI ---- */
-const planData = {
-  free:    { name: 'Free',            price: 'Rp 0',       period: 'Selamanya',  confirm: 'Free — Rp 0' },
-  monthly: { name: 'Premium Bulanan', price: 'Rp 19.000',  period: 'per bulan',  confirm: 'Premium Bulanan — Rp 19.000' },
-  annual:  { name: 'Premium Tahunan', price: 'Rp 179.000', period: 'per tahun',  confirm: 'Premium Tahunan — Rp 179.000' },
-};
-
-function selectPlan(key) {
-  const d = planData[key];
-  document.querySelectorAll('.plan-btn').forEach(b => b.classList.toggle('active', b.dataset.plan === key));
-  document.getElementById('pay-plan-name').textContent    = d.name;
-  document.getElementById('pay-plan-price').textContent   = d.price;
-  document.getElementById('pay-plan-period').textContent  = d.period;
-  document.getElementById('pay-paket-confirm').value      = d.confirm;
-}
-
-/* Read plan from URL on load */
-document.addEventListener('DOMContentLoaded', () => {
-  const p = new URLSearchParams(location.search).get('plan') || 'monthly';
-  if (planData[p]) selectPlan(p);
-});
+  emailjs.init({
+    publicKey: "0VSyjWsh1sFGcDHrO"
+  });
 </script>
+
+<!-- PAYMENT JS -->
+<script src="assets/js/payment.js"></script>
+
+<!-- PLAN SELECTOR -->
+<script>
+  const planData = {
+    free: {
+      name: "Free",
+      price: "Rp 0",
+      period: "Selamanya",
+      confirm: "Free — Rp 0"
+    },
+
+    monthly: {
+      name: "Premium Bulanan",
+      price: "Rp 19.000",
+      period: "per bulan",
+      confirm: "Premium Bulanan — Rp 19.000"
+    },
+
+    annual: {
+      name: "Premium Tahunan",
+      price: "Rp 179.000",
+      period: "per tahun",
+      confirm: "Premium Tahunan — Rp 179.000"
+    }
+  };
+
+  function selectPlan(key) {
+    const d = planData[key];
+
+    if (!d) return;
+
+    document.querySelectorAll(".plan-btn").forEach(function (btn) {
+      btn.classList.toggle(
+        "active",
+        btn.dataset.plan === key
+      );
+    });
+
+    document.getElementById("pay-plan-name").textContent = d.name;
+    document.getElementById("pay-plan-price").textContent = d.price;
+    document.getElementById("pay-plan-period").textContent = d.period;
+    document.getElementById("pay-paket-confirm").value = d.confirm;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const p =
+      new URLSearchParams(location.search).get("plan")
+      || "monthly";
+
+    if (planData[p]) {
+      selectPlan(p);
+    }
+
+    if (typeof AOS !== "undefined") {
+      AOS.init({
+        duration: 700,
+        once: true,
+        offset: 80
+      });
+    }
+  });
+</script>
+
 </body>
 </html>

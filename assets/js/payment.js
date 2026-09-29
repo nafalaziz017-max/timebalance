@@ -1,69 +1,432 @@
-/* ========================================
-   TimeBalance — payment.js
-   Payment page UI
-   TODO: Connect to real payment gateway / API
-   ======================================== */
+/* =========================================================
+   TIMEBALANCE - PAYMENT.JS
+   EmailJS Payment Confirmation
+   ========================================================= */
 
-document.addEventListener('DOMContentLoaded', () => {
-  /* Read plan from URL param: payment.html?plan=monthly */
-  const params = new URLSearchParams(location.search);
-  const plan   = params.get('plan') || 'monthly';
+/* =========================
+   PLAN DATA
+   ========================= */
 
-  const plans = {
-    free:    { name: 'Free',             price: 'Rp 0',       period: 'Selamanya' },
-    monthly: { name: 'Premium Bulanan',  price: 'Rp 19.000',  period: 'per bulan' },
-    annual:  { name: 'Premium Tahunan',  price: 'Rp 179.000', period: 'per tahun' },
-  };
+const planData = {
+  free: {
+    name: "Free",
+    price: "Rp 0",
+    period: "Selamanya",
+    confirm: "Free — Rp 0"
+  },
 
-  const selected = plans[plan] || plans.monthly;
+  monthly: {
+    name: "Premium Bulanan",
+    price: "Rp 19.000",
+    period: "per bulan",
+    confirm: "Premium Bulanan — Rp 19.000"
+  },
 
-  const nameEl   = document.getElementById('pay-plan-name');
-  const priceEl  = document.getElementById('pay-plan-price');
-  const periodEl = document.getElementById('pay-plan-period');
-  if (nameEl)   nameEl.textContent   = selected.name;
-  if (priceEl)  priceEl.textContent  = selected.price;
-  if (periodEl) periodEl.textContent = selected.period;
+  annual: {
+    name: "Premium Tahunan",
+    price: "Rp 179.000",
+    period: "per tahun",
+    confirm: "Premium Tahunan — Rp 179.000"
+  }
+};
 
-  /* Highlight selected plan in selector (if any) */
-  document.querySelectorAll('[data-plan]').forEach(el => {
-    el.classList.toggle('active', el.dataset.plan === plan);
+
+/* =========================
+   SELECT PLAN
+   ========================= */
+
+function selectPlan(key) {
+  const d = planData[key];
+
+  if (!d) return;
+
+  document.querySelectorAll(".plan-btn").forEach(function (btn) {
+    btn.classList.toggle(
+      "active",
+      btn.dataset.plan === key
+    );
   });
+
+  const planName = document.getElementById("pay-plan-name");
+  const planPrice = document.getElementById("pay-plan-price");
+  const planPeriod = document.getElementById("pay-plan-period");
+  const paketConfirm = document.getElementById("pay-paket-confirm");
+
+  if (planName) {
+    planName.textContent = d.name;
+  }
+
+  if (planPrice) {
+    planPrice.textContent = d.price;
+  }
+
+  if (planPeriod) {
+    planPeriod.textContent = d.period;
+  }
+
+  if (paketConfirm) {
+    paketConfirm.value = d.confirm;
+  }
+}
+
+
+/* =========================
+   READ PLAN FROM URL
+   ========================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  const params = new URLSearchParams(window.location.search);
+
+  const selectedPlan =
+    params.get("plan") || "monthly";
+
+  if (planData[selectedPlan]) {
+    selectPlan(selectedPlan);
+  }
+
 });
 
-/* ---- Confirm payment handler ---- */
+
+/* =========================
+   PAYMENT CONFIRMATION
+   ========================= */
+
 function confirmPayment() {
-  const name  = document.getElementById('pay-name')?.value.trim();
-  const email = document.getElementById('pay-email')?.value.trim();
-  const note  = document.getElementById('pay-note')?.value.trim();
 
-  if (!name || !email) {
-    showPayMsg('❌ Mohon isi nama dan email Anda.', 'error');
+  const nameInput =
+    document.getElementById("pay-name");
+
+  const emailInput =
+    document.getElementById("pay-email");
+
+  const noteInput =
+    document.getElementById("pay-note");
+
+  const paketInput =
+    document.getElementById("pay-paket-confirm");
+
+  const message =
+    document.getElementById("pay-msg");
+
+
+  /* =========================
+     GET FORM VALUES
+     ========================= */
+
+  const name =
+    nameInput ? nameInput.value.trim() : "";
+
+  const email =
+    emailInput ? emailInput.value.trim() : "";
+
+  const catatan =
+    noteInput ? noteInput.value.trim() : "";
+
+  const paket =
+    paketInput ? paketInput.value : "";
+
+
+  /* =========================
+     VALIDATION
+     ========================= */
+
+  if (!name) {
+
+    showPaymentMessage(
+      "error",
+      "❌ Nama lengkap wajib diisi."
+    );
+
+    if (nameInput) {
+      nameInput.focus();
+    }
+
     return;
   }
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!re.test(email)) {
-    showPayMsg('❌ Format email tidak valid.', 'error');
+
+
+  if (!email) {
+
+    showPaymentMessage(
+      "error",
+      "❌ Email aktif wajib diisi."
+    );
+
+    if (emailInput) {
+      emailInput.focus();
+    }
+
     return;
   }
 
-  /* TODO: Replace with actual API call to your backend / payment gateway */
-  showPayMsg('✅ Konfirmasi diterima! Kami akan memverifikasi pembayaran Anda dalam 1×24 jam dan mengirim akses ke email yang Anda daftarkan.', 'success');
-}
 
-function showPayMsg(msg, type) {
-  const el = document.getElementById('pay-msg');
-  if (!el) return;
-  el.textContent = msg;
-  el.className   = 'pay-msg ' + type;
-  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
+  /* =========================
+     EMAIL VALIDATION
+     ========================= */
 
-/* ---- Copy virtual account / info ---- */
-function copyText(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  navigator.clipboard.writeText(el.textContent).then(() => {
-    const btn = document.querySelector(`[onclick="copyText('${id}')"]`);
-    if (btn) { btn.textContent = 'Disalin!'; setTimeout(() => btn.textContent = 'Salin', 2000); }
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+  if (!emailRegex.test(email)) {
+
+    showPaymentMessage(
+      "error",
+      "❌ Masukkan alamat email yang valid."
+    );
+
+    if (emailInput) {
+      emailInput.focus();
+    }
+
+    return;
+  }
+
+
+  /* =========================
+     GET PRICE
+     ========================= */
+
+  let harga = "Rp 0";
+
+
+  if (paket.includes("19.000")) {
+
+    harga = "Rp 19.000";
+
+  } else if (paket.includes("179.000")) {
+
+    harga = "Rp 179.000";
+
+  }
+
+
+  /* =========================
+     CURRENT TIME
+     ========================= */
+
+  const waktu =
+    new Date().toLocaleString(
+      "id-ID",
+      {
+        dateStyle: "full",
+        timeStyle: "short"
+      }
+    );
+
+
+  /* =========================
+     EMAILJS PARAMETERS
+     ========================= */
+
+  const templateParams = {
+
+    name: name,
+
+    email: email,
+
+    paket: paket,
+
+    harga: harga,
+
+    catatan: catatan || "-",
+
+    waktu: waktu
+
+  };
+
+
+  /* =========================
+     SHOW LOADING
+     ========================= */
+
+  showPaymentMessage(
+    "loading",
+    "⏳ Sedang mengirim konfirmasi pembayaran..."
+  );
+
+
+  /* =========================
+     DISABLE BUTTON
+     ========================= */
+
+  const button =
+    document.querySelector(
+      'button[onclick="confirmPayment()"]'
+    );
+
+
+  if (button) {
+
+    button.disabled = true;
+
+    button.style.opacity = "0.7";
+
+    button.style.cursor = "not-allowed";
+
+    button.innerHTML =
+      '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+
+  }
+
+
+  /* =========================
+     SEND EMAIL WITH EMAILJS
+     ========================= */
+
+  emailjs.send(
+
+    "service_68x3qfg",
+
+    "n56f5gr",
+
+    templateParams
+
+  )
+
+  .then(function (response) {
+
+    console.log(
+      "EmailJS berhasil:",
+      response.status,
+      response.text
+    );
+
+
+    /* =========================
+       SUCCESS MESSAGE
+       ========================= */
+
+    showPaymentMessage(
+      "success",
+      "✅ Konfirmasi pembayaran berhasil dikirim. Silakan tunggu verifikasi dari admin."
+    );
+
+
+    /* =========================
+       RESET FORM
+       ========================= */
+
+    if (nameInput) {
+      nameInput.value = "";
+    }
+
+    if (emailInput) {
+      emailInput.value = "";
+    }
+
+    if (noteInput) {
+      noteInput.value = "";
+    }
+
+
+    /* =========================
+       RESTORE BUTTON
+       ========================= */
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.style.opacity = "1";
+
+      button.style.cursor = "pointer";
+
+      button.innerHTML =
+        '<i class="fas fa-paper-plane"></i> Saya Sudah Membayar — Konfirmasi';
+
+    }
+
+  })
+
+
+  .catch(function (error) {
+
+    console.error(
+      "EmailJS Error:",
+      error
+    );
+
+
+    /* =========================
+       ERROR MESSAGE
+       ========================= */
+
+    showPaymentMessage(
+      "error",
+      "❌ Konfirmasi gagal dikirim. Silakan coba lagi beberapa saat."
+    );
+
+
+    /* =========================
+       RESTORE BUTTON
+       ========================= */
+
+    if (button) {
+
+      button.disabled = false;
+
+      button.style.opacity = "1";
+
+      button.style.cursor = "pointer";
+
+      button.innerHTML =
+        '<i class="fas fa-paper-plane"></i> Saya Sudah Membayar — Konfirmasi';
+
+    }
+
   });
+
+}
+
+
+/* =========================
+   PAYMENT MESSAGE
+   ========================= */
+
+function showPaymentMessage(type, text) {
+
+  const message =
+    document.getElementById("pay-msg");
+
+
+  if (!message) return;
+
+
+  message.style.display = "block";
+
+  message.textContent = text;
+
+
+  if (type === "success") {
+
+    message.className =
+      "pay-msg success";
+
+  }
+
+  else if (type === "error") {
+
+    message.className =
+      "pay-msg error";
+
+  }
+
+  else {
+
+    message.className =
+      "pay-msg";
+
+    message.style.background =
+      "rgba(79, 70, 229, 0.08)";
+
+    message.style.color =
+      "var(--primary)";
+
+    message.style.border =
+      "1px solid rgba(79, 70, 229, 0.18)";
+
+  }
+
 }
