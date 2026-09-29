@@ -9,6 +9,7 @@
    ========================= */
 
 const planData = {
+
   free: {
     name: "Free",
     price: "Rp 0",
@@ -25,10 +26,11 @@ const planData = {
 
   annual: {
     name: "Premium Tahunan",
-    price: "Rp 179.000",
+    price: "Rp 50.000",
     period: "per tahun",
-    confirm: "Premium Tahunan — Rp 179.000"
+    confirm: "Premium Tahunan — Rp 50.000"
   }
+
 };
 
 
@@ -100,9 +102,7 @@ document.addEventListener(
 
 
     if (planData[selectedPlan]) {
-
       selectPlan(selectedPlan);
-
     }
 
   }
@@ -221,7 +221,6 @@ function confirmPayment() {
     }
 
     return;
-
   }
 
 
@@ -241,7 +240,6 @@ function confirmPayment() {
     }
 
     return;
-
   }
 
 
@@ -261,7 +259,6 @@ function confirmPayment() {
     }
 
     return;
-
   }
 
 
@@ -278,9 +275,9 @@ function confirmPayment() {
 
   }
 
-  else if (paket.includes("179.000")) {
+  else if (paket.includes("50.000")) {
 
-    harga = "Rp 179.000";
+    harga = "Rp 50.000";
 
   }
 
@@ -391,10 +388,10 @@ function confirmPayment() {
      ========================= */
 
   emailjs.send(
-  "service_68x3qfg",
-  "timebalance_payment",
-  templateParams
-)
+    "service_68x3qfg",
+    "timebalance_payment",
+    templateParams
+  )
 
 
   /* =========================
