@@ -205,6 +205,7 @@
               <div class="pay-step"><div class="pay-step-num">3</div><p>Scan kode QR di atas dan pastikan nominalnya sesuai</p></div>
               <div class="pay-step"><div class="pay-step-num">4</div><p>Selesaikan pembayaran dan simpan bukti transfer</p></div>
               <div class="pay-step"><div class="pay-step-num">5</div><p>Isi form konfirmasi di sebelah kanan dan upload foto bukti pembayaran Anda</p></div>
+              <div class="pay-step"><div class="pay-step-num">6</div><p>Tunggu <strong>token aktivasi</strong> dikirim ke email Anda, lalu masukkan di aplikasi (lihat panduan di bawah form)</p></div>
             </div>
 
           </div>
@@ -222,7 +223,8 @@
 
           <p style="font-size:.83rem;color:var(--text-muted);margin-bottom:22px;line-height:1.6">
             Setelah membayar via QRIS, isi form berikut untuk konfirmasi.
-            Akses Premium Anda akan diaktifkan dalam 1×24 jam pada hari kerja.
+            Setelah pembayaran kami verifikasi, <strong>token aktivasi Premium</strong> akan dikirim ke email Anda
+            dalam 1×24 jam pada hari kerja.
           </p>
 
           <div class="form-group">
@@ -233,7 +235,7 @@
           <div class="form-group">
             <label for="pay-email">Email Aktif <span style="color:#e05252">*</span></label>
             <input type="email" id="pay-email" placeholder="email@anda.com"/>
-            <p style="font-size:.75rem;color:var(--text-muted);margin-top:5px">Akses Premium akan dikirim ke email ini.</p>
+            <p style="font-size:.75rem;color:var(--text-muted);margin-top:5px">Token Premium akan dikirim ke email ini. Pastikan alamatnya benar.</p>
           </div>
 
           <div class="form-group">
@@ -270,6 +272,21 @@
           </button>
 
           <div id="pay-msg" class="pay-msg"></div>
+
+          <!-- PANDUAN AKTIVASI TOKEN -->
+          <div class="order-card" style="margin-top:20px">
+            <h3><i class="fas fa-key" style="color:var(--primary)"></i> Cara Mengaktifkan Token di Aplikasi</h3>
+            <div class="pay-steps" style="margin:0">
+              <div class="pay-step"><div class="pay-step-num">1</div><p>Pasang aplikasi TimeBalance dari halaman <a href="download.html"><strong>Download APK</strong></a></p></div>
+              <div class="pay-step"><div class="pay-step-num">2</div><p>Buka aplikasi, masuk ke <strong>Profil → Premium</strong></p></div>
+              <div class="pay-step"><div class="pay-step-num">3</div><p>Pada bagian <strong>"Sudah bayar? Masukkan token aktivasi"</strong>, tempel token dari email (salin-tempel agar tidak salah ketik)</p></div>
+              <div class="pay-step"><div class="pay-step-num">4</div><p>Tekan <strong>Aktifkan Premium</strong>. Selesai! 🎉</p></div>
+            </div>
+            <p class="qris-note" style="text-align:left;margin-top:14px">
+              🔒 Token berlaku untuk <strong>1 perangkat</strong> dan harus diaktifkan dalam batas waktu yang tertera di email.
+              Jangan bagikan token Anda ke orang lain.
+            </p>
+          </div>
 
           <div class="help-strip">
             <i class="fas fa-headset"></i>
