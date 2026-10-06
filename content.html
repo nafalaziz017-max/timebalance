@@ -3,24 +3,31 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <meta name="description" content="Fitur lengkap TimeBalance: Smart To-Do List, Focus Lock, Pomodoro Timer, Leisure Time Wallet, Productivity Analytics, dan Achievement System."/>
+  <meta name="description" content="Fitur utama TimeBalance: Smart To-Do List, Pomodoro Timer, Leisure Time Wallet, dan Productivity Analytics."/>
   <title>Fitur — TimeBalance</title>
+
   <link rel="icon" type="image/jpeg" href="logobaru1.jpeg"/>
+
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
+
   <link rel="stylesheet" href="assets/css/style.css"/>
   <link rel="stylesheet" href="assets/css/components.css"/>
   <link rel="stylesheet" href="assets/css/responsive.css"/>
 
   <style>
-    .features-grid-6 {
+    .features-grid-4 {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 22px;
       margin-top: 48px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .compare-table {
@@ -66,13 +73,13 @@
     }
 
     @media(max-width:900px) {
-      .features-grid-6 {
+      .features-grid-4 {
         grid-template-columns: 1fr 1fr;
       }
     }
 
     @media(max-width:600px) {
-      .features-grid-6 {
+      .features-grid-4 {
         grid-template-columns: 1fr;
       }
     }
@@ -81,6 +88,7 @@
 
 <body>
 
+<!-- LOADING -->
 <div id="loading">
   <div class="loading-logo">
     <span>Time</span>Balance
@@ -88,13 +96,17 @@
   <div class="spinner"></div>
 </div>
 
+<!-- BACK TO TOP -->
 <button id="btt" aria-label="Kembali ke atas" onclick="scrollTop()">
   <i class="fas fa-arrow-up"></i>
 </button>
 
+<!-- MOBILE OVERLAY -->
 <div class="mobile-overlay" id="mob-overlay" onclick="closeMobileMenu()"></div>
 
+<!-- MOBILE MENU -->
 <nav class="mobile-menu" id="mob-menu">
+
   <a href="index.html" onclick="closeMobileMenu()">
     <i class="fas fa-home"></i> Home
   </a>
@@ -122,13 +134,16 @@
   <a href="download.html" class="mob-dl" onclick="closeMobileMenu()">
     <i class="fas fa-download"></i> Download APK
   </a>
+
 </nav>
 
+<!-- NAVBAR -->
 <header class="navbar" id="navbar">
   <div class="nav-inner">
 
     <a href="index.html" class="nav-logo">
       <img src="logobaru1.jpeg" alt="TimeBalance logo"/>
+
       <span>
         <span class="time">Time</span>
         <span class="bal">Balance</span>
@@ -162,6 +177,7 @@
       </button>
 
     </div>
+
   </div>
 </header>
 
@@ -177,8 +193,8 @@
     <h1>Fitur <span>TimeBalance</span></h1>
 
     <p>
-      Semua yang Anda butuhkan untuk produktif, fokus,
-      dan menikmati hidup tanpa rasa bersalah.
+      Fitur sederhana yang membantu Anda mengatur tugas,
+      menjaga fokus, dan menikmati waktu luang tanpa rasa bersalah.
     </p>
 
   </div>
@@ -192,23 +208,26 @@
 
       <div class="section-badge">
         <i class="fas fa-th-large"></i>
-        Semua Fitur
+        Fitur Utama
       </div>
 
       <h2 class="section-title" id="h-features">
-        Dirancang untuk <span>Produktivitas Nyata</span>
+        Fokus pada <span>Hal yang Penting</span>
       </h2>
 
       <p class="section-desc">
-        Setiap fitur dibuat dengan tujuan: membantu Anda
-        mencapai lebih banyak dan menikmati hasilnya.
+        TimeBalance menghadirkan empat fitur utama yang dirancang
+        untuk membantu Anda bekerja lebih teratur, fokus, dan tetap
+        memiliki waktu untuk menikmati hasilnya.
       </p>
 
     </div>
 
-    <div class="features-grid-6">
+    <div class="features-grid-4">
 
+      <!-- FEATURE 1 -->
       <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+
         <div class="feature-icon">
           <i class="fas fa-list-check"></i>
         </div>
@@ -216,36 +235,20 @@
         <h3>Smart To-Do List</h3>
 
         <p>
-          Daftar tugas cerdas berdasarkan prioritas dan tenggat waktu.
-          Atur, urutkan, dan selesaikan tugas dengan lebih efisien.
+          Catat dan kelola tugas dengan mudah berdasarkan prioritas
+          dan waktu pengerjaan. Selesaikan tugas satu per satu
+          agar pekerjaan terasa lebih teratur.
         </p>
 
         <div class="feature-tag">
           <i class="fas fa-check"></i> Gratis
         </div>
+
       </div>
 
-      <div class="feature-card" data-aos="fade-up" data-aos-delay="60">
-        <div
-          class="feature-icon"
-          style="background:rgba(212,169,55,.12);color:var(--gold)"
-        >
-          <i class="fas fa-lock"></i>
-        </div>
+      <!-- FEATURE 2 -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="80">
 
-        <h3>Focus Lock</h3>
-
-        <p>
-          Kunci aplikasi yang mengganggu seperti Instagram,
-          TikTok, dan game saat sesi fokus aktif. Tidak bisa di-bypass.
-        </p>
-
-        <div class="feature-tag premium">
-          <i class="fas fa-crown"></i> Premium
-        </div>
-      </div>
-
-      <div class="feature-card" data-aos="fade-up" data-aos-delay="120">
         <div class="feature-icon">
           <i class="fas fa-hourglass-half"></i>
         </div>
@@ -253,17 +256,20 @@
         <h3>Pomodoro Timer</h3>
 
         <p>
-          Teknik Pomodoro 25 menit fokus + 5 menit istirahat
-          yang terbukti meningkatkan produktivitas dan mengurangi
-          kelelahan mental.
+          Gunakan sesi fokus dengan metode Pomodoro untuk membantu
+          Anda berkonsentrasi pada satu tugas, kemudian beristirahat
+          sejenak sebelum kembali bekerja.
         </p>
 
         <div class="feature-tag">
           <i class="fas fa-check"></i> Gratis
         </div>
+
       </div>
 
-      <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+      <!-- FEATURE 3 -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="160">
+
         <div class="feature-icon">
           <i class="fas fa-wallet"></i>
         </div>
@@ -271,118 +277,137 @@
         <h3>Leisure Time Wallet</h3>
 
         <p>
-          Dompet waktu hiburan yang terisi otomatis setiap kali
-          Anda menyelesaikan tugas. Nikmati hiburan tanpa rasa bersalah.
+          Dapatkan waktu hiburan setelah menyelesaikan tugas.
+          Semakin produktif Anda, semakin banyak waktu yang bisa
+          digunakan untuk bersantai dan menikmati hiburan.
         </p>
 
         <div class="feature-tag">
           <i class="fas fa-check"></i> Gratis
         </div>
+
       </div>
 
-      <div class="feature-card" data-aos="fade-up" data-aos-delay="60">
-        <div
-          class="feature-icon"
-          style="background:rgba(212,169,55,.12);color:var(--gold)"
-        >
+      <!-- FEATURE 4 -->
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="240">
+
+        <div class="feature-icon">
           <i class="fas fa-chart-line"></i>
         </div>
 
         <h3>Productivity Analytics</h3>
 
         <p>
-          Grafik dan statistik produktivitas harian, mingguan,
-          dan bulanan. Identifikasi pola dan optimalkan jadwal Anda.
+          Lihat perkembangan produktivitas melalui ringkasan tugas
+          yang selesai dan waktu fokus. Gunakan data sederhana ini
+          untuk mengetahui kebiasaan dan meningkatkan produktivitas.
         </p>
 
         <div class="feature-tag premium">
           <i class="fas fa-crown"></i> Premium
         </div>
-      </div>
 
-      <div class="feature-card" data-aos="fade-up" data-aos-delay="120">
-        <div
-          class="feature-icon"
-          style="background:rgba(212,169,55,.12);color:var(--gold)"
-        >
-          <i class="fas fa-trophy"></i>
-        </div>
-
-        <h3>Achievement System</h3>
-
-        <p>
-          Kumpulkan badge, naik level, dan dapatkan penghargaan virtual
-          setiap kali mencapai target produktivitas Anda.
-        </p>
-
-        <div class="feature-tag premium">
-          <i class="fas fa-crown"></i> Premium
-        </div>
-      </div>
-
-      <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
-        <div class="feature-icon">
-          <i class="fas fa-bell"></i>
-        </div>
-
-        <h3>Reminder &amp; Notifikasi</h3>
-
-        <p>
-          Pengingat cerdas untuk tugas yang mendekati deadline
-          agar tidak ada yang terlewat.
-        </p>
-
-        <div class="feature-tag">
-          <i class="fas fa-check"></i> Gratis
-        </div>
-      </div>
-
-      <div class="feature-card" data-aos="fade-up" data-aos-delay="60">
-        <div
-          class="feature-icon"
-          style="background:rgba(212,169,55,.12);color:var(--gold)"
-        >
-          <i class="fas fa-sliders-h"></i>
-        </div>
-
-        <h3>Custom Rule System</h3>
-
-        <p>
-          Atur aturan kerja dan hiburan sesuai preferensi Anda sendiri
-          untuk pengalaman yang benar-benar personal.
-        </p>
-
-        <div class="feature-tag premium">
-          <i class="fas fa-crown"></i> Premium
-        </div>
-      </div>
-
-      <div class="feature-card" data-aos="fade-up" data-aos-delay="120">
-        <div
-          class="feature-icon"
-          style="background:rgba(212,169,55,.12);color:var(--gold)"
-        >
-          <i class="fas fa-file-pdf"></i>
-        </div>
-
-        <h3>Export Laporan PDF</h3>
-
-        <p>
-          Ekspor laporan produktivitas lengkap dalam format PDF
-          untuk evaluasi mingguan atau bulanan.
-        </p>
-
-        <div class="feature-tag premium">
-          <i class="fas fa-crown"></i> Premium
-        </div>
       </div>
 
     </div>
+
   </div>
 </section>
 
+<!-- WORK REWARD MECHANISM -->
+<section style="background:var(--card-bg)" aria-labelledby="h-work-reward">
+
+  <div class="container">
+
+    <div class="section-header" data-aos="fade-up">
+
+      <div class="section-badge">
+        <i class="fas fa-arrows-rotate"></i>
+        Cara Kerja
+      </div>
+
+      <h2 class="section-title" id="h-work-reward">
+        Work <span>→ Reward</span>
+      </h2>
+
+      <p class="section-desc">
+        TimeBalance menggunakan konsep sederhana:
+        selesaikan pekerjaan terlebih dahulu, kemudian nikmati waktu luang sebagai reward.
+      </p>
+
+    </div>
+
+    <div class="features-grid-4">
+
+      <div class="feature-card" data-aos="fade-up">
+
+        <div class="feature-icon">
+          <i class="fas fa-list-check"></i>
+        </div>
+
+        <h3>1. Tentukan Tugas</h3>
+
+        <p>
+          Masukkan tugas yang ingin diselesaikan dan tentukan
+          prioritasnya.
+        </p>
+
+      </div>
+
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="80">
+
+        <div class="feature-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+
+        <h3>2. Mulai Fokus</h3>
+
+        <p>
+          Gunakan Pomodoro Timer untuk membantu tetap fokus
+          sampai tugas selesai.
+        </p>
+
+      </div>
+
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="160">
+
+        <div class="feature-icon">
+          <i class="fas fa-circle-check"></i>
+        </div>
+
+        <h3>3. Selesaikan</h3>
+
+        <p>
+          Setelah tugas selesai, TimeBalance mencatat
+          progres produktivitas Anda.
+        </p>
+
+      </div>
+
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="240">
+
+        <div class="feature-icon">
+          <i class="fas fa-gift"></i>
+        </div>
+
+        <h3>4. Nikmati Reward</h3>
+
+        <p>
+          Waktu hiburan yang diperoleh dapat digunakan untuk
+          bersantai tanpa rasa bersalah.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
 <!-- COMPARISON TABLE -->
-<section style="background:var(--card-bg)" aria-labelledby="h-compare">
+<section aria-labelledby="h-compare">
+
   <div class="container">
 
     <div class="section-header" data-aos="fade-up">
@@ -397,7 +422,7 @@
       </h2>
 
       <p class="section-desc">
-        Lihat perbedaan lengkap antara paket Gratis dan Premium.
+        Pilih paket sesuai kebutuhan Anda.
       </p>
 
     </div>
@@ -427,7 +452,7 @@
           </tr>
 
           <tr>
-            <td>Basic Pomodoro Timer</td>
+            <td>Pomodoro Timer</td>
             <td><i class="fas fa-check-circle tick"></i></td>
             <td><i class="fas fa-check-circle tick"></i></td>
           </tr>
@@ -439,55 +464,13 @@
           </tr>
 
           <tr>
-            <td>Jadwal Harian &amp; Reminder</td>
-            <td><i class="fas fa-check-circle tick"></i></td>
-            <td><i class="fas fa-check-circle tick"></i></td>
-          </tr>
-
-          <tr>
-            <td>Focus Lock (App Blocking)</td>
-            <td><i class="fas fa-times-circle cross"></i></td>
-            <td><i class="fas fa-check-circle tick"></i></td>
-          </tr>
-
-          <tr>
-            <td>Dynamic Time Quota</td>
-            <td><i class="fas fa-times-circle cross"></i></td>
-            <td><i class="fas fa-check-circle tick"></i></td>
-          </tr>
-
-          <tr>
-            <td>Strict Mode (No Skip)</td>
-            <td><i class="fas fa-times-circle cross"></i></td>
-            <td><i class="fas fa-check-circle tick"></i></td>
-          </tr>
-
-          <tr>
             <td>Productivity Analytics</td>
             <td><i class="fas fa-times-circle cross"></i></td>
             <td><i class="fas fa-check-circle tick"></i></td>
           </tr>
 
           <tr>
-            <td>Achievement System</td>
-            <td><i class="fas fa-times-circle cross"></i></td>
-            <td><i class="fas fa-check-circle tick"></i></td>
-          </tr>
-
-          <tr>
-            <td>Custom Rule System</td>
-            <td><i class="fas fa-times-circle cross"></i></td>
-            <td><i class="fas fa-check-circle tick"></i></td>
-          </tr>
-
-          <tr>
-            <td>Export Laporan PDF</td>
-            <td><i class="fas fa-times-circle cross"></i></td>
-            <td><i class="fas fa-check-circle tick"></i></td>
-          </tr>
-
-          <tr>
-            <td>Backup Data Cloud</td>
+            <td>Statistik Produktivitas</td>
             <td><i class="fas fa-times-circle cross"></i></td>
             <td><i class="fas fa-check-circle tick"></i></td>
           </tr>
@@ -499,23 +482,29 @@
           </tr>
 
         </tbody>
+
       </table>
+
     </div>
 
     <div style="text-align:center;margin-top:36px">
+
       <a href="pricing.html" class="btn btn-primary">
         <i class="fas fa-tag"></i>
         Lihat Harga Paket
       </a>
+
     </div>
 
   </div>
+
 </section>
 
 <!-- CTA -->
 <section
   style="background:var(--hero-gradient);padding:72px 0;text-align:center"
 >
+
   <div class="container">
 
     <div data-aos="fade-up">
@@ -523,17 +512,17 @@
       <h2
         style="font-size:clamp(1.8rem,3vw,2.4rem);font-weight:800;color:#fff;margin-bottom:12px"
       >
-        Coba Semua Fitur
+        Mulai Produktif,
         <span style="color:var(--gold-light)">
-          Gratis Sekarang
+          Nikmati Reward
         </span>
       </h2>
 
       <p
         style="color:rgba(255,255,255,.75);margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto"
       >
-        Download TimeBalance dan mulai perjalanan produktivitas Anda hari ini —
-        tanpa kartu kredit.
+        Selesaikan tugas, bangun kebiasaan produktif,
+        lalu nikmati waktu luang Anda dengan TimeBalance.
       </p>
 
       <div
@@ -553,11 +542,14 @@
       </div>
 
     </div>
+
   </div>
+
 </section>
 
 <!-- FOOTER -->
 <footer>
+
   <div class="container">
 
     <div class="footer-inner">
@@ -604,6 +596,7 @@
           </a>
 
         </div>
+
       </div>
 
       <div class="footer-col">
@@ -611,6 +604,7 @@
         <h4>Navigasi</h4>
 
         <ul>
+
           <li>
             <a href="index.html">Home</a>
           </li>
@@ -634,6 +628,7 @@
           <li>
             <a href="download.html">Download APK</a>
           </li>
+
         </ul>
 
       </div>
@@ -643,11 +638,13 @@
         <h4>Kontak</h4>
 
         <ul>
+
           <li>
             <a href="mailto:nafalaziz016@gmail.com">
               nafalaziz016@gmail.com
             </a>
           </li>
+
         </ul>
 
       </div>
@@ -669,8 +666,10 @@
     </div>
 
   </div>
+
 </footer>
 
+<!-- SCRIPTS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/navigation.js"></script>
