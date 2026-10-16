@@ -31,7 +31,9 @@
     .price-box .plan-name { display: block; font-size: .85rem; font-weight: 700; margin-bottom: 4px; }
     .price-box .plan-price { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
 
+    .price-box .plan-period { display: block; font-size: .74rem; color: var(--text-muted); margin-top: 4px; }
     .pay-steps { display: flex; flex-direction: column; gap: 14px; }
+    .note-list { margin: 0; padding-left: 18px; font-size: .84rem; color: var(--text-muted); line-height: 1.7; text-align: left; }
     .pay-step { display: flex; gap: 12px; align-items: flex-start; }
     .pay-step-num { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; background: var(--hero-gradient); color: #fff; font-size: .74rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
     .pay-step p { font-size: .86rem; color: var(--text-muted); line-height: 1.6; text-align: left; margin: 0; }
@@ -100,7 +102,7 @@
   <div class="container">
     <div class="section-badge"><i class="fas fa-credit-card"></i> Cara Bayar</div>
     <h1>Bayar <span>Langsung di Aplikasi</span></h1>
-    <p>Semua pembayaran Premium kini dilakukan di dalam aplikasi TimeBalance. Tidak perlu transfer atau konfirmasi lewat website.</p>
+    <p>Pembayaran Premium dilakukan lewat QRIS langsung di dalam aplikasi TimeBalance. Tidak perlu token dan tidak perlu konfirmasi lewat website.</p>
   </div>
 </div>
 
@@ -119,25 +121,39 @@
           <div class="price-box featured">
             <span class="plan-name">Premium Bulanan</span>
             <span class="plan-price">Rp 19.000</span>
+            <span class="plan-period">aktif 31 hari</span>
           </div>
           <div class="price-box">
             <span class="plan-name">Premium Tahunan</span>
             <span class="plan-price">Rp 50.000</span>
+            <span class="plan-period">aktif 366 hari</span>
           </div>
         </div>
       </div>
 
       <!-- LANGKAH -->
       <div class="order-card" data-aos="fade-up" data-aos-delay="60">
-        <h3><i class="fas fa-list-ol" style="color:var(--primary)"></i> Cara Upgrade ke Premium</h3>
+        <h3><i class="fas fa-list-ol" style="color:var(--primary)"></i> Cara Berlangganan</h3>
 
         <div class="pay-steps">
           <div class="pay-step"><div class="pay-step-num">1</div><p>Pasang aplikasi TimeBalance dari halaman <a href="download.html"><strong>Download APK</strong></a></p></div>
-          <div class="pay-step"><div class="pay-step-num">2</div><p>Buka aplikasi dan masuk dengan akun kamu</p></div>
-          <div class="pay-step"><div class="pay-step-num">3</div><p>Masuk ke menu <strong>Profil → Premium</strong></p></div>
-          <div class="pay-step"><div class="pay-step-num">4</div><p>Pilih paket <strong>Bulanan</strong> atau <strong>Tahunan</strong>, lalu ikuti petunjuk pembayaran di aplikasi</p></div>
-          <div class="pay-step"><div class="pay-step-num">5</div><p>Setelah pembayaran selesai, fitur Premium aktif di akun kamu. Selesai! 🎉</p></div>
+          <div class="pay-step"><div class="pay-step-num">2</div><p>Buka aplikasi lalu <strong>daftar</strong> (nama, email, kata sandi) atau <strong>masuk</strong> jika sudah punya akun</p></div>
+          <div class="pay-step"><div class="pay-step-num">3</div><p>Pada layar paket, pilih <strong>Bulanan</strong> atau <strong>Tahunan</strong>, lalu tekan <strong>Bayar via QRIS</strong></p></div>
+          <div class="pay-step"><div class="pay-step-num">4</div><p>Buka e-wallet atau m-banking, pilih <strong>Scan QRIS</strong>, lalu bayar <strong>sesuai nominal persis</strong> yang tampil di aplikasi (dua digit terakhir adalah kode unik)</p></div>
+          <div class="pay-step"><div class="pay-step-num">5</div><p>Kembali ke aplikasi dan tekan <strong>Saya sudah bayar</strong>. Unggah foto bukti bayar jika diminta</p></div>
+          <div class="pay-step"><div class="pay-step-num">6</div><p>Admin memverifikasi pembayaran, biasanya kurang dari 1 jam. Setelah itu akun Anda <strong>aktif otomatis</strong>, tanpa token. Selesai! 🎉</p></div>
         </div>
+      </div>
+
+      <!-- CATATAN -->
+      <div class="order-card" data-aos="fade-up" data-aos-delay="90">
+        <h3><i class="fas fa-circle-info" style="color:var(--primary)"></i> Yang Perlu Diketahui</h3>
+        <ul class="note-list">
+          <li>Langganan <strong>tidak diperpanjang otomatis</strong>. Setelah masa aktif habis, aplikasi terkunci sampai Anda berlangganan lagi.</li>
+          <li>Saat memperpanjang, masa aktif baru <strong>ditambahkan di akhir</strong> masa langganan Anda saat ini.</li>
+          <li>Langganan menempel di akun, jadi saat ganti HP cukup masuk dengan akun yang sama.</li>
+          <li>Data tugas dan riwayat tersimpan di perangkat Anda dan tetap aman meski langganan berakhir.</li>
+        </ul>
       </div>
 
       <!-- CTA -->
