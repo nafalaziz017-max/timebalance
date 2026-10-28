@@ -458,6 +458,182 @@
         padding: 20px;
       }
     }
+
+    /* =====================================================
+       REDESAIN KARTU PILIHAN PAKET - HOMEPAGE
+    ===================================================== */
+    .pricing-mini-section {
+      padding: 82px 0;
+    }
+
+    .pricing-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: stretch;
+      gap: 24px;
+      max-width: 1120px;
+      margin: 42px auto 0;
+    }
+
+    .pricing-mini-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 30px 28px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow-sm);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .pricing-mini-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow);
+      border-color: rgba(46, 94, 78, .35);
+    }
+
+    .pricing-mini-card.is-featured {
+      border: 2px solid var(--primary);
+      box-shadow: 0 16px 42px rgba(46, 94, 78, .12);
+    }
+
+    .pricing-mini-card.is-featured .feature-icon {
+      background: rgba(46, 94, 78, .13);
+    }
+
+    .pricing-mini-card .feature-icon {
+      margin-bottom: 20px;
+    }
+
+    .pricing-mini-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.12rem;
+      line-height: 1.4;
+    }
+
+    .pricing-mini-price {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 5px;
+      margin: 2px 0 12px;
+      color: var(--text);
+    }
+
+    .pricing-mini-price strong {
+      font-size: 1.75rem;
+      line-height: 1.2;
+      letter-spacing: -.04em;
+      font-weight: 900;
+    }
+
+    .pricing-mini-price span {
+      color: var(--text-muted);
+      font-size: .82rem;
+    }
+
+    .pricing-mini-card > p {
+      min-height: 52px;
+      margin: 0 0 20px;
+      color: var(--text-muted);
+      font-size: .86rem;
+      line-height: 1.7;
+    }
+
+    .pricing-mini-features {
+      display: grid;
+      gap: 11px;
+      margin: 0 0 26px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pricing-mini-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--text-muted);
+      font-size: .81rem;
+      line-height: 1.5;
+    }
+
+    .pricing-mini-features i {
+      flex: 0 0 auto;
+      margin-top: 3px;
+      color: var(--success);
+    }
+
+    .pricing-mini-card .pricing-mini-cta {
+      width: 100%;
+      margin-top: auto;
+      text-align: center;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+
+    .pricing-mini-badge {
+      position: absolute;
+      top: -14px;
+      right: 20px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #fff;
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      box-shadow: 0 6px 16px rgba(46, 94, 78, .2);
+    }
+
+    .pricing-mini-note {
+      display: block;
+      margin: -4px 0 18px;
+      color: var(--primary);
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .pricing-mini-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 720px;
+      }
+
+      .pricing-mini-card:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .pricing-mini-section {
+        padding: 60px 0;
+      }
+
+      .pricing-mini-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        margin-top: 32px;
+        max-width: 430px;
+      }
+
+      .pricing-mini-card,
+      .pricing-mini-card:last-child {
+        grid-column: auto;
+        padding: 26px 23px;
+      }
+
+      .pricing-mini-card > p {
+        min-height: 0;
+      }
+
+      .pricing-mini-badge {
+        right: 16px;
+        font-size: .63rem;
+      }
+    }
+
   </style>
 </head>
 
@@ -1256,131 +1432,85 @@
      PRICING MINI
 ===================================================== -->
 
-<section
-  style="background:var(--card-bg)"
->
-
+<section class="pricing-mini-section" style="background:var(--card-bg)">
   <div class="container">
-
-    <div
-      class="section-header"
-      data-aos="fade-up"
-    >
-
+    <div class="section-header" data-aos="fade-up">
       <div class="section-badge">
-
         <i class="fas fa-crown"></i>
-
         Pilihan Paket
-
       </div>
-
-
       <h2 class="section-title">
-
-        Pilih Paket
-
-        <span>Premium</span>
-
+        Pilih Paket <span>Premium</span>
       </h2>
-
-
       <p class="section-desc">
-
-        Pilih paket Premium bulanan atau tahunan
-        sesuai kebutuhan Anda.
-
+        Pilih paket yang sesuai kebutuhan dan bangun kebiasaan produktif bersama TimeBalance.
       </p>
-
     </div>
 
-
-    <div
-      class="feature-grid"
-      data-aos="fade-up"
-    >
-
-      <div class="feature-card">
-
+    <div class="pricing-mini-grid" data-aos="fade-up">
+      <article class="pricing-mini-card">
         <div class="feature-icon">
           <i class="fas fa-fire"></i>
         </div>
-
-        <h3>
-          Premium Bulanan
-        </h3>
-
-        <p>
-          Rp 19.000/bulan dengan fitur Premium
-          dan bebas iklan.
-        </p>
-
-        <a
-          href="payment.html?plan=monthly"
-          class="btn btn-primary"
-          style="margin-top:18px"
-        >
+        <h3>Premium Bulanan</h3>
+        <div class="pricing-mini-price">
+          <strong>Rp 19.000</strong><span>/ bulan</span>
+        </div>
+        <p>Fleksibel untuk mulai menikmati pengalaman Premium tanpa iklan.</p>
+        <ul class="pricing-mini-features">
+          <li><i class="fas fa-check-circle"></i><span>Focus Lock &amp; App Blocking</span></li>
+          <li><i class="fas fa-check-circle"></i><span>Dynamic Time Quota</span></li>
+          <li><i class="fas fa-check-circle"></i><span>Productivity Insights</span></li>
+          <li><i class="fas fa-check-circle"></i><span>Bebas iklan</span></li>
+        </ul>
+        <a href="payment.html?plan=monthly" class="btn btn-primary pricing-mini-cta">
           Pilih Bulanan
         </a>
+      </article>
 
-      </div>
-
-
-      <div class="feature-card">
-
+      <article class="pricing-mini-card is-featured">
+        <span class="pricing-mini-badge">HEMAT 78%</span>
         <div class="feature-icon">
           <i class="fas fa-calendar-check"></i>
         </div>
-
-        <h3>
-          Premium Tahunan
-        </h3>
-
-        <p>
-          Rp 50.000/tahun untuk pengalaman Premium
-          yang lebih hemat.
-        </p>
-
-        <a
-          href="payment.html?plan=annual"
-          class="btn btn-primary"
-          style="margin-top:18px"
-        >
+        <h3>Premium Tahunan</h3>
+        <div class="pricing-mini-price">
+          <strong>Rp 50.000</strong><span>/ tahun</span>
+        </div>
+        <span class="pricing-mini-note">Pilihan hemat untuk jangka panjang</span>
+        <p>Nikmati fitur Premium lebih lama dengan biaya tahunan yang lebih hemat.</p>
+        <ul class="pricing-mini-features">
+          <li><i class="fas fa-check-circle"></i><span>Semua fitur Premium</span></li>
+          <li><i class="fas fa-check-circle"></i><span>Early Access fitur baru</span></li>
+          <li><i class="fas fa-check-circle"></i><span>Export laporan PDF</span></li>
+          <li><i class="fas fa-check-circle"></i><span>Backup data cloud</span></li>
+          <li><i class="fas fa-check-circle"></i><span>Bebas iklan</span></li>
+        </ul>
+        <a href="payment.html?plan=annual" class="btn btn-primary pricing-mini-cta">
           Pilih Tahunan
         </a>
+      </article>
 
-      </div>
-
-
-      <div class="feature-card">
-
+      <article class="pricing-mini-card">
         <div class="feature-icon">
           <i class="fas fa-download"></i>
         </div>
-
-        <h3>
-          Download APK
-        </h3>
-
-        <p>
-          Akses halaman download untuk mendapatkan
-          aplikasi TimeBalance.
-        </p>
-
-        <a
-          href="download.html"
-          class="btn btn-primary"
-          style="margin-top:18px"
-        >
-          Download
+        <h3>Download APK</h3>
+        <div class="pricing-mini-price">
+          <strong>Gratis</strong><span>untuk memulai</span>
+        </div>
+        <p>Pasang aplikasi TimeBalance dan mulai mengatur waktu dengan lebih seimbang.</p>
+        <ul class="pricing-mini-features">
+          <li><i class="fas fa-check-circle"></i><span>Akses aplikasi Android</span></li>
+          <li><i class="fas fa-check-circle"></i><span>Mulai mengatur tugas harian</span></li>
+          <li><i class="fas fa-check-circle"></i><span>Bangun rutinitas lebih produktif</span></li>
+        </ul>
+        <a href="download.html" class="btn btn-primary pricing-mini-cta">
+          <i class="fas fa-download"></i> Download APK
         </a>
-
-      </div>
-
+      </article>
     </div>
-
   </div>
-
 </section>
 
 
